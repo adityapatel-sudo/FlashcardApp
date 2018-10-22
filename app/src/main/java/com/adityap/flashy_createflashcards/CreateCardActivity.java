@@ -1,12 +1,14 @@
 package com.adityap.flashy_createflashcards;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -16,9 +18,9 @@ import java.util.List;
 
 public class CreateCardActivity extends AppCompatActivity {
 
-    private FlashcardDatabaseHelper mFlashcardDatabaseHelper;
-    private TextView mWordTextView;
-    private TextView mDefinitionTextView;
+    public FlashcardDatabaseHelper mFlashcardDatabaseHelper;
+    public TextView mWordTextView;
+    public TextView mDefinitionTextView;
     private EditText mWordEditText;
     private EditText mDefinitionEditText;
     @Override
@@ -37,6 +39,15 @@ public class CreateCardActivity extends AppCompatActivity {
         mWordTextView.setText(flashcardModels.get(0).getWord());
         mDefinitionTextView.setText(flashcardModels.get(0).getDefinition());
 
+        Button endActivityButton = (Button) findViewById(R.id.button);
+        endActivityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent result = new Intent();
+                setResult(RESULT_OK, result);
+                CreateCardActivity.this.finish();
+            }
+        });
     }
 
 }
