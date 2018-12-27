@@ -18,8 +18,8 @@ import java.util.List;
 public class FlashcardDatabaseHelper extends SQLiteOpenHelper {
 
     // Table Name
-    public static final String TABLE_NAME = "FLASHCARD_DATABASE";
-
+    public static final String FLASHCARD_TABLE = "FLASHCARD_TABLE";
+    public static final String DECK_TABLE = "DECK";
     // Table columns
     public static final String _ID = "_id";
     public static final String WORD = "word";
@@ -32,8 +32,10 @@ public class FlashcardDatabaseHelper extends SQLiteOpenHelper {
     static final int DB_VERSION = 1;
 
     // Creating table query
-    private static final String CREATE_TABLE = "create table " + TABLE_NAME + "(" + _ID
+    private static final String CREATE_TABLE_CARDS = "create table " + TABLE_NAME + "(" + _ID
             + " INTEGER PRIMARY KEY AUTOINCREMENT, " + WORD + " TEXT NOT NULL, " + DEFINITION + " TEXT NOT NULL);";
+    private static final String CREATE_TABLE = "create table " + DECK_TABLE + "(" + _ID
+            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + NAME + " TEXT NOT NULL, " + DESCRIPTION + " TEXT NOT NULL);";
 
 
 
@@ -63,7 +65,7 @@ public class FlashcardDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public List<FlashcardModel> readFlashcards(){
-        String query = "SELECT * FROM " + TABLE_NAME;
+        String query = "SELECT * FROM " + FLASHCARD_TABLE;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
 
