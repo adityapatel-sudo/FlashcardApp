@@ -13,7 +13,7 @@ import com.adityap.flashy_createflashcards.models.FlashcardModel;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class CreateDeckActivity extends AppCompatActivity {
 
     TextView mTextView;
     FlashcardDatabaseHelper mFlashcardDatabaseHelper;
@@ -21,35 +21,33 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_create_deck);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        mFlashcardDatabaseHelper = new FlashcardDatabaseHelper(this);
 
-        mTextView = findViewById(R.id.text_view);
+        mFlashcardDatabaseHelper = new FlashcardDatabaseHelper(this);
+        mFlashcardDatabaseHelper.addFlashcard(new FlashcardModel("Worf", "Derf"));
+
+        mTextView = findViewById(R.id.textView);
+       // mFlashcardDatabaseHelper = new FlashcardDatabaseHelper(this);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, CreateDeckActivity.class);
-                startActivity(intent);
-            }
-//            public void onClick(View view) {
-//                Intent intent = new Intent(MainActivity.this, CreateCardActivity.class);
-//                startActivityForResult(intent, 123);
-//            }
+                Intent intent = new Intent(CreateDeckActivity.this, CreateCardActivity.class);
+                startActivityForResult(intent, 123);
+           }
         });
     }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == 123) {
+            // show newly added data
+            List<FlashcardModel> list = mFlashcardDatabaseHelper.readFlashcards();
+            FlashcardModel lastCard = list.get(list.size() - 1);
+            mTextView.setText(lastCard.getWord() + " " + lastCard.getDefinition());
+        }
+    }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (resultCode == RESULT_OK && requestCode == 123) {
-//            // show newly added data
-//            List<FlashcardModel>  list = mFlashcardDatabaseHelper.readFlashcards();
-//            FlashcardModel lastCard = list.get(list.size() - 1);
-//            mTextView.setText(lastCard.getWord() + " " + lastCard.getDefinition());
-//        }
-//    }
 }

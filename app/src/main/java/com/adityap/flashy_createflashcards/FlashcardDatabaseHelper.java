@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.adityap.flashy_createflashcards.models.FlashcardModel;
 
@@ -24,7 +25,7 @@ public class FlashcardDatabaseHelper extends SQLiteOpenHelper {
     public static final String _ID = "_id";
     public static final String WORD = "word";
     public static final String DEFINITION = "definition";
-    public static final String DECK_ID = "deck_id"
+    public static final String DECK_ID = "deck_id";
     public static final String DECK_NAME = "deck_name";
     public static final String DECK_DESCRIPTION = "deck_description";
 
@@ -34,13 +35,15 @@ public class FlashcardDatabaseHelper extends SQLiteOpenHelper {
     // database version
     static final int DB_VERSION = 1;
 
-    // Creating table query
-    private static final String CREATE_TABLE_CARDS = "create table " + FLASHCARD_TABLE + "(" + _ID + "INTEGER PRIMARY KEY AUTOINCREMENT" + WORD + " TEXT NOT NULL, " + DEFINITION + " TEXT NOT NULL" + DECK_NAME +" TEXT NOT NULL);";
-
     private static final String CREATE_TABLE_DECK = "create table " + DECK_TABLE + "(" + _ID
             + " INTEGER PRIMARY KEY AUTOINCREMENT, " + DECK_NAME + " TEXT NOT NULL, " + DECK_DESCRIPTION + " TEXT NOT NULL);";
+    // Creating table query
+    private static final String CREATE_TABLE_CARD = "create table " + FLASHCARD_TABLE + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + WORD + " TEXT NOT NULL, " + DEFINITION + " TEXT NOT NULL, " + DECK_ID +" INTEGER , FOREIGN KEY (" + DECK_ID + ") REFERENCES " + DECK_TABLE + " (" + _ID + "));";
 
-    private static final String FOREIGN_KEY_LINK = "ALTER " + CREATE_TABLE_CARDS + " ADD FOREIGN KEY (" + DECK_ID + ") REFERENCES " + CREATE_TABLE_DECK + " (" + _ID + ");"
+
+
+    //private static final String FOREIGN_KEY_LINK = "ALTER " + CREATE_TABLE_CARD + " ADD FOREIGN KEY (" + DECK_ID + ") REFERENCES " + CREATE_TABLE_DECK + " (" + _ID + ");";
 
     public FlashcardDatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -48,9 +51,13 @@ public class FlashcardDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL(CREATE_TABLE_CARD);
+        Log.d("debugKey", CREATE_TABLE_DECK);
         sqLiteDatabase.execSQL(CREATE_TABLE_DECK);
-        sqLiteDatabase.execSQL(FOREIGN_KEY_LINK);
+
+        Log.d("debugKey", CREATE_TABLE_CARD);
+        sqLiteDatabase.execSQL(CREATE_TABLE_CARD);
+
+        //sqLiteDatabase.execSQL(FOREIGN_KEY_LINK);
     }
 
     @Override
@@ -65,7 +72,7 @@ public class FlashcardDatabaseHelper extends SQLiteOpenHelper {
         values.put(DEFINITION, flashcard.getDefinition());
 
         SQLiteDatabase db = this.getWritableDatabase();
-        db.insert(TABLE_NAME, null, values);
+        db.insert(FLASHCARD_TABLE, null, values);
         db.close();
     }
 

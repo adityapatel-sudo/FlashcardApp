@@ -28,8 +28,6 @@ public class CreateCardActivity extends AppCompatActivity {
 
         mFlashcardDatabaseHelper = new FlashcardDatabaseHelper(this);
 
-        mFlashcardDatabaseHelper.addFlashcard(new FlashcardModel("Worf", "Derf"));
-
         mWordEditText = findViewById(R.id.editTextWord);
         mDefinitionEditText = findViewById(R.id.editTextDefinition);
 //

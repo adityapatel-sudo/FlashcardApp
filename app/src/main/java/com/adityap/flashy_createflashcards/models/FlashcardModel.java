@@ -27,6 +27,7 @@ public class FlashcardModel {
     public void setmId(int mId) {
         this.mId = mId;
     }
+
     public String getWord() {
         return mWord;
     }
