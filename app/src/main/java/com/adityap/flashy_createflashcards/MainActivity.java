@@ -9,7 +9,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
+import com.adityap.flashy_createflashcards.models.DeckModel;
 import com.adityap.flashy_createflashcards.models.FlashcardModel;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -17,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
     TextView mTextView;
     FlashcardDatabaseHelper mFlashcardDatabaseHelper;
+    TextView displayDeckTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +44,12 @@ public class MainActivity extends AppCompatActivity {
 //                startActivityForResult(intent, 123);
 //            }
         });
+
+        displayDeckTextView = findViewById(R.id.text_view);
+
+        List<DeckModel> list = mFlashcardDatabaseHelper.readDeck();
+        DeckModel lastDeck = list.get(list.size() - 1);
+        displayDeckTextView.setText(lastDeck.getDeckName() + " " + lastDeck.getDeckDescription());
     }
 
 //    @Override

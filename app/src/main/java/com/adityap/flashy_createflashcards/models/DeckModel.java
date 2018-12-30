@@ -10,6 +10,12 @@ package com.adityap.flashy_createflashcards.models;
         private String mDeckDescription;
 
 
+
+        public DeckModel(String deckName, String deckDescription){
+            mDeckName = deckName;
+            mDeckDescription = deckDescription;
+        }
+
         public int getId() {
             return mId;
         }
@@ -35,11 +41,6 @@ package com.adityap.flashy_createflashcards.models;
         }
     }
 
-//
-//    public FlashcardModel(String deckName, String deckDescription){
-//        mDeckName = deckName;
-//        mDeckDescription = deckDescription;
-//    }
 
 //    public String getDeckName() {
 //        return mDeckName;

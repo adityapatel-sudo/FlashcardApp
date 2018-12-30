@@ -7,19 +7,24 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.adityap.flashy_createflashcards.models.DeckModel;
 import com.adityap.flashy_createflashcards.models.FlashcardModel;
 
 import java.util.List;
 
 public class CreateDeckActivity extends AppCompatActivity {
 
-    TextView mTextView;
-    FlashcardDatabaseHelper mFlashcardDatabaseHelper;
-    EditText editTextDeckNameEnter;
-    EditText editTextDeckDescriptionEnter
+    private TextView mTextView;
+    public FlashcardDatabaseHelper mFlashcardDatabaseHelper;
+
+    private EditText mEditTextDeckNameEnter;
+    private EditText mEditTextDeckDescriptionEnter;
+    private Button mButtonEnterDeckIntoDatabase;
+    private TextView mTextViewDisplayDeckFromDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,24 +40,25 @@ public class CreateDeckActivity extends AppCompatActivity {
         mFlashcardDatabaseHelper.addFlashcard(new FlashcardModel("Worf", "Derf"));
 
         mTextView = findViewById(R.id.textView);
-       // mFlashcardDatabaseHelper = new FlashcardDatabaseHelper(this);
+        // mFlashcardDatabaseHelper = new FlashcardDatabaseHelper(this);
 
 
+        mEditTextDeckNameEnter = findViewById(R.id.editTextDeckName);
+        mEditTextDeckDescriptionEnter = findViewById(R.id.editTextDescription);
 
+        mButtonEnterDeckIntoDatabase = findViewById(R.id.read_edittext_button);
+        mButtonEnterDeckIntoDatabase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+                //The following adds name and description of deck into the deck table in db
+                String editTextDeckName = mEditTextDeckNameEnter.getText().toString();
+                String editTextDeckDescription = mEditTextDeckDescriptionEnter.getText().toString();
 
-
-
-
-
-
-
-
-
-
-
-
-
+                mFlashcardDatabaseHelper.addDeck(new DeckModel(editTextDeckName, editTextDeckDescription));
+                //The following takes the last deck and displays it onto a textview
+            }
+        });
 
 
 

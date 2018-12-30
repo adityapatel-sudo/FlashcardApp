@@ -20,8 +20,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="0dp">
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="143dp">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -87,18 +87,12 @@
             android:id="@+id/fab"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@android:drawable/ic_dialog_email" />
-
-        <TextView
-            android:id="@+id/desplay_recent_deck"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
     </LinearLayout>
 

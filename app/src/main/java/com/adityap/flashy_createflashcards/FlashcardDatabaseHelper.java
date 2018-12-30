@@ -105,10 +105,7 @@ public class FlashcardDatabaseHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                DeckModel deck = new DeckModel();
-                deck.setId(cursor.getInt(cursor.getColumnIndex(_ID)));
-                deck.setDeckName(cursor.getString(cursor.getColumnIndex(DECK_NAME)));
-                deck.setDeckDescription(cursor.getString(cursor.getColumnIndex(DECK_DESCRIPTION)));
+                DeckModel deck = new DeckModel(cursor.getString(cursor.getColumnIndex(DECK_NAME)),cursor.getString(cursor.getColumnIndex(DECK_DESCRIPTION)));
 
                 // Add book to books
                 deckList.add(deck);
