@@ -10,27 +10,27 @@ package com.adityap.flashy_createflashcards.models;
         private String mDeckDescription;
 
 
-        public int getmId() {
+        public int getId() {
             return mId;
         }
 
-        public void setmId(int mId) {
+        public void setId(int mId) {
             this.mId = mId;
         }
 
-        public String getmDeckName() {
+        public String getDeckName() {
             return mDeckName;
         }
 
-        public void setmDeckName(String mDeckName) {
+        public void setDeckName(String mDeckName) {
             this.mDeckName = mDeckName;
         }
 
-        public String getmDeckDescription() {
+        public String getDeckDescription() {
             return mDeckDescription;
         }
 
-        public void setmDeckDescription(String mDeckDescription) {
+        public void setDeckDescription(String mDeckDescription) {
             this.mDeckDescription = mDeckDescription;
         }
     }

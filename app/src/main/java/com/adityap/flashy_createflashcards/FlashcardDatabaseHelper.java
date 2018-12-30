@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.adityap.flashy_createflashcards.models.DeckModel;
 import com.adityap.flashy_createflashcards.models.FlashcardModel;
 
 import java.util.ArrayList;
@@ -35,11 +36,17 @@ public class FlashcardDatabaseHelper extends SQLiteOpenHelper {
     // database version
     static final int DB_VERSION = 1;
 
-    private static final String CREATE_TABLE_DECK = "create table " + DECK_TABLE + "(" + _ID
-            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + DECK_NAME + " TEXT NOT NULL, " + DECK_DESCRIPTION + " TEXT NOT NULL);";
+    private static final String CREATE_TABLE_DECK = "create table " + DECK_TABLE +
+            "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+            " " + DECK_NAME + " TEXT NOT NULL, "
+            + DECK_DESCRIPTION + " TEXT NOT NULL);";
     // Creating table query
-    private static final String CREATE_TABLE_CARD = "create table " + FLASHCARD_TABLE + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + WORD + " TEXT NOT NULL, " + DEFINITION + " TEXT NOT NULL, " + DECK_ID +" INTEGER , FOREIGN KEY (" + DECK_ID + ") REFERENCES " + DECK_TABLE + " (" + _ID + "));";
+    private static final String CREATE_TABLE_CARD = "create table " + FLASHCARD_TABLE +
+            "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + WORD + " TEXT NOT NULL, "
+            + DEFINITION + " TEXT NOT NULL, "
+            + DECK_ID +" INTEGER ," +
+            " FOREIGN KEY (" + DECK_ID + ") REFERENCES " + DECK_TABLE + " (" + _ID + "));";
 
 
 
@@ -65,16 +72,52 @@ public class FlashcardDatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public void addFlashcard(FlashcardModel flashcard){
-        ContentValues values = new ContentValues();
+    public void addDeck(DeckModel deckModel){
+        ContentValues deckValues = new ContentValues();
 
-        values.put(WORD, flashcard.getWord());
-        values.put(DEFINITION, flashcard.getDefinition());
+        deckValues.put(DECK_NAME, deckModel.getDeckName());
+        deckValues.put(DECK_DESCRIPTION, deckModel.getDeckDescription());
 
         SQLiteDatabase db = this.getWritableDatabase();
-        db.insert(FLASHCARD_TABLE, null, values);
+        db.insert(DECK_TABLE, null, deckValues);
         db.close();
     }
+
+
+    public void addFlashcard(FlashcardModel flashcard){
+        ContentValues cardValues = new ContentValues();
+
+        cardValues.put(WORD, flashcard.getWord());
+        cardValues.put(DEFINITION, flashcard.getDefinition());
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.insert(FLASHCARD_TABLE, null, cardValues);
+        db.close();
+    }
+
+
+    public List<DeckModel> readDeck(){
+        String query = "SELECT * FROM " + DECK_TABLE;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        List<DeckModel> deckList = new ArrayList<>();
+
+        if (cursor.moveToFirst()) {
+            do {
+                DeckModel deck = new DeckModel();
+                deck.setId(cursor.getInt(cursor.getColumnIndex(_ID)));
+                deck.setDeckName(cursor.getString(cursor.getColumnIndex(DECK_NAME)));
+                deck.setDeckDescription(cursor.getString(cursor.getColumnIndex(DECK_DESCRIPTION)));
+
+                // Add book to books
+                deckList.add(deck);
+            } while (cursor.moveToNext());
+        }
+
+        return deckList;
+    }
+
 
     public List<FlashcardModel> readFlashcards(){
         String query = "SELECT * FROM " + FLASHCARD_TABLE;

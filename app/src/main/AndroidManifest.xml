@@ -23,7 +23,11 @@
         <activity
             android:name=".CreateDeckActivity"
             android:label="@string/title_activity_create_deck"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.adityap.flashy_createflashcards.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

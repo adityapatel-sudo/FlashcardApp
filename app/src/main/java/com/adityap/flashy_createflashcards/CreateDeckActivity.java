@@ -24,6 +24,9 @@ public class CreateDeckActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_deck);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        setSupportActionBar(toolbar);
 
         mFlashcardDatabaseHelper = new FlashcardDatabaseHelper(this);
         mFlashcardDatabaseHelper.addFlashcard(new FlashcardModel("Worf", "Derf"));
