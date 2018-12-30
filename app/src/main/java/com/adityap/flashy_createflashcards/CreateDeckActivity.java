@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.adityap.flashy_createflashcards.models.FlashcardModel;
@@ -17,6 +18,8 @@ public class CreateDeckActivity extends AppCompatActivity {
 
     TextView mTextView;
     FlashcardDatabaseHelper mFlashcardDatabaseHelper;
+    EditText editTextDeckNameEnter;
+    EditText editTextDeckDescriptionEnter
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +36,25 @@ public class CreateDeckActivity extends AppCompatActivity {
 
         mTextView = findViewById(R.id.textView);
        // mFlashcardDatabaseHelper = new FlashcardDatabaseHelper(this);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
