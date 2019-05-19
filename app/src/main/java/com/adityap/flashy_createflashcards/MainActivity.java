@@ -7,8 +7,10 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.adityap.flashy_createflashcards.adapters.DeckListAdapter;
 import com.adityap.flashy_createflashcards.models.DeckModel;
 import com.adityap.flashy_createflashcards.models.FlashcardModel;
 
@@ -21,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     TextView mTextView;
     FlashcardDatabaseHelper mFlashcardDatabaseHelper;
     TextView displayDeckTextView;
-
+    ListView deckListView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,11 +47,18 @@ public class MainActivity extends AppCompatActivity {
 //            }
         });
 
-        displayDeckTextView = findViewById(R.id.text_view);
-
         List<DeckModel> list = mFlashcardDatabaseHelper.readDeck();
-        DeckModel lastDeck = list.get(list.size() - 1);
-        displayDeckTextView.setText(lastDeck.getDeckName() + " " + lastDeck.getDeckDescription());
+        deckListView = findViewById(R.id.listview);
+        DeckListAdapter deckListAdapter = new DeckListAdapter(this,list );
+        deckListView.setAdapter(deckListAdapter);
+
+//        displayDeckTextView = findViewById(R.id.text_view);
+//
+//        List<DeckModel> list = mFlashcardDatabaseHelper.readDeck();
+//        DeckModel lastDeck = list.get(list.size() - 1);
+//        displayDeckTextView.setText(lastDeck.getDeckName() + " " + lastDeck.getDeckDescription());
+
+
     }
 
 //    @Override
