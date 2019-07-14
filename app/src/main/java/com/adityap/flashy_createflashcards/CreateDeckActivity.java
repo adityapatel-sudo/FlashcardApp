@@ -56,7 +56,10 @@ public class CreateDeckActivity extends AppCompatActivity {
                 String editTextDeckDescription = mEditTextDeckDescriptionEnter.getText().toString();
 
                 mFlashcardDatabaseHelper.addDeck(new DeckModel(editTextDeckName, editTextDeckDescription));
-                //The following takes the last deck and displays it onto a textview
+
+                Intent result = new Intent();
+                setResult(RESULT_OK, result);
+                CreateDeckActivity.this.finish();
             }
         });
 

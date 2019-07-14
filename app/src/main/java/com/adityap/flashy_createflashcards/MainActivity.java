@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -51,6 +52,15 @@ public class MainActivity extends AppCompatActivity {
         deckListView = findViewById(R.id.listview);
         DeckListAdapter deckListAdapter = new DeckListAdapter(this,list );
         deckListView.setAdapter(deckListAdapter);
+        deckListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Intent intent = new Intent(MainActivity.this, ReviewDeckActivity.class);
+                intent.putExtra("DeckId",position);
+                startActivityForResult(intent,123);
+            }
+        });
 
 //        displayDeckTextView = findViewById(R.id.text_view);
 //
@@ -59,6 +69,14 @@ public class MainActivity extends AppCompatActivity {
 //        displayDeckTextView.setText(lastDeck.getDeckName() + " " + lastDeck.getDeckDescription());
 
 
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == 123) {
+            MainActivity.this.finish();
+            startActivity(getIntent());
+        }
     }
 
 //    @Override

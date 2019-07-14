@@ -46,7 +46,7 @@ public class DeckListAdapter extends BaseAdapter {
         TextView textViewDeckDescription = (TextView)convertView.findViewById(R.id.textview_deckDescription);
 
         textViewDeckName.setText(mDeckModels.get(position).getDeckName());
-        textViewDeckDescription.setText(mDeckModels.get(position).getDeckName());
+        textViewDeckDescription.setText(mDeckModels.get(position).getDeckDescription());
         return convertView ;
     }
 }
