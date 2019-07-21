@@ -42,7 +42,6 @@ public class CreateCardActivity extends AppCompatActivity {
                 String editTextWord = mWordEditText.getText().toString();
                 String editTextDefinition = mDefinitionEditText.getText().toString();
 
-                mFlashcardDatabaseHelper.addFlashcard(new FlashcardModel (editTextWord, editTextDefinition));
 
                 // Write Function to add to the database
                 Intent result = new Intent();

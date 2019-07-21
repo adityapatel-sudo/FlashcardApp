@@ -80,6 +80,7 @@ public class FlashcardDatabaseHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
         db.insert(DECK_TABLE, null, deckValues);
+        Log.d("AdityaDebug","Record insereted");
         db.close();
     }
 
@@ -89,6 +90,7 @@ public class FlashcardDatabaseHelper extends SQLiteOpenHelper {
 
         cardValues.put(WORD, flashcard.getWord());
         cardValues.put(DEFINITION, flashcard.getDefinition());
+        cardValues.put(DECK_ID,flashcard.getmId());
 
         SQLiteDatabase db = this.getWritableDatabase();
         db.insert(FLASHCARD_TABLE, null, cardValues);
@@ -106,7 +108,7 @@ public class FlashcardDatabaseHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 DeckModel deck = new DeckModel(cursor.getString(cursor.getColumnIndex(DECK_NAME)),cursor.getString(cursor.getColumnIndex(DECK_DESCRIPTION)));
-
+                deck.setId(cursor.getInt(cursor.getColumnIndex(_ID)));
                 // Add book to books
                 deckList.add(deck);
             } while (cursor.moveToNext());
@@ -116,7 +118,7 @@ public class FlashcardDatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public List<FlashcardModel> readFlashcards(){
+    public List<FlashcardModel> readFlashcards(int deckId){
         String query = "SELECT * FROM " + FLASHCARD_TABLE;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
@@ -125,13 +127,16 @@ public class FlashcardDatabaseHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
+
                 FlashcardModel flashcard = new FlashcardModel();
-                flashcard.setmId(cursor.getInt(cursor.getColumnIndex(_ID)));
+                flashcard.setmId(cursor.getInt(cursor.getColumnIndex(DECK_ID)));
                 flashcard.setWord(cursor.getString(cursor.getColumnIndex(WORD)));
                 flashcard.setDefinition(cursor.getString(cursor.getColumnIndex(DEFINITION)));
 
                 // Add book to books
-                flashcardList.add(flashcard);
+                if (deckId == cursor.getInt(cursor.getColumnIndex(DECK_ID))){
+                    flashcardList.add(flashcard);
+                }
             } while (cursor.moveToNext());
         }
 

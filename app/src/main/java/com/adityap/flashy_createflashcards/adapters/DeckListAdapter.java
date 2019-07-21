@@ -22,6 +22,14 @@ public class DeckListAdapter extends BaseAdapter {
         mContext = context;
     }
 
+    public List<DeckModel> getDeckModels() {
+        return mDeckModels;
+    }
+
+    public void setDeckModels(List<DeckModel> mDeckModels) {
+        this.mDeckModels = mDeckModels;
+    }
+
     @Override
     public int getCount() {
         return mDeckModels.size();

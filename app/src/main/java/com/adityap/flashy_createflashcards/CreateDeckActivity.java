@@ -37,7 +37,6 @@ public class CreateDeckActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         mFlashcardDatabaseHelper = new FlashcardDatabaseHelper(this);
-        mFlashcardDatabaseHelper.addFlashcard(new FlashcardModel("Worf", "Derf"));
 
         mTextView = findViewById(R.id.textView);
         // mFlashcardDatabaseHelper = new FlashcardDatabaseHelper(this);
@@ -63,25 +62,6 @@ public class CreateDeckActivity extends AppCompatActivity {
             }
         });
 
-
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(CreateDeckActivity.this, CreateCardActivity.class);
-                startActivityForResult(intent, 123);
-           }
-        });
-    }
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == 123) {
-            // show newly added data
-            List<FlashcardModel> list = mFlashcardDatabaseHelper.readFlashcards();
-            FlashcardModel lastCard = list.get(list.size() - 1);
-            mTextView.setText(lastCard.getWord() + " " + lastCard.getDefinition());
-        }
     }
 
 }

@@ -15,9 +15,10 @@ public class FlashcardModel {
         mDefinition = null;
     }
 
-    public FlashcardModel(String word, String definition){
+    public FlashcardModel(String word, String definition, int id){
         mWord = word;
         mDefinition = definition;
+        mId = id;
     }
 
     public int getmId() {

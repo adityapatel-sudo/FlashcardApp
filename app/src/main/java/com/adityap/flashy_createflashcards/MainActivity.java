@@ -3,9 +3,9 @@ package com.adityap.flashy_createflashcards;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -13,9 +13,6 @@ import android.widget.TextView;
 
 import com.adityap.flashy_createflashcards.adapters.DeckListAdapter;
 import com.adityap.flashy_createflashcards.models.DeckModel;
-import com.adityap.flashy_createflashcards.models.FlashcardModel;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -25,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
     FlashcardDatabaseHelper mFlashcardDatabaseHelper;
     TextView displayDeckTextView;
     ListView deckListView;
+    DeckListAdapter mDeckListAdapter;
+    List<DeckModel> mDeckModelList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,14 +32,16 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         mFlashcardDatabaseHelper = new FlashcardDatabaseHelper(this);
 
-        mTextView = findViewById(R.id.text_view);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
                 Intent intent = new Intent(MainActivity.this, CreateDeckActivity.class);
-                startActivity(intent);
+
+                startActivityForResult(intent,123);
             }
 //            public void onClick(View view) {
 //                Intent intent = new Intent(MainActivity.this, CreateCardActivity.class);
@@ -48,24 +49,24 @@ public class MainActivity extends AppCompatActivity {
 //            }
         });
 
-        List<DeckModel> list = mFlashcardDatabaseHelper.readDeck();
+        mDeckModelList = mFlashcardDatabaseHelper.readDeck();
         deckListView = findViewById(R.id.listview);
-        DeckListAdapter deckListAdapter = new DeckListAdapter(this,list );
-        deckListView.setAdapter(deckListAdapter);
+        mDeckListAdapter = new DeckListAdapter(this, mDeckModelList);
+        deckListView.setAdapter(mDeckListAdapter);
         deckListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 Intent intent = new Intent(MainActivity.this, ReviewDeckActivity.class);
-                intent.putExtra("DeckId",position);
-                startActivityForResult(intent,123);
+                intent.putExtra("DeckId",mDeckModelList.get(position).getId());
+                startActivity(intent);
             }
         });
 
 //        displayDeckTextView = findViewById(R.id.text_view);
 //
-//        List<DeckModel> list = mFlashcardDatabaseHelper.readDeck();
-//        DeckModel lastDeck = list.get(list.size() - 1);
+//        List<DeckModel> mDeckModelList = mFlashcardDatabaseHelper.readDeck();
+//        DeckModel lastDeck = mDeckModelList.get(mDeckModelList.size() - 1);
 //        displayDeckTextView.setText(lastDeck.getDeckName() + " " + lastDeck.getDeckDescription());
 
 
@@ -74,8 +75,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == 123) {
-            MainActivity.this.finish();
-            startActivity(getIntent());
+            Log.d("AdityaDebug","Result recieved");
+
+            mDeckModelList = mFlashcardDatabaseHelper.readDeck();
+            mDeckListAdapter.setDeckModels(mDeckModelList);
+            mDeckListAdapter.notifyDataSetChanged();
+
         }
     }
 
@@ -84,8 +89,8 @@ public class MainActivity extends AppCompatActivity {
 //        super.onActivityResult(requestCode, resultCode, data);
 //        if (resultCode == RESULT_OK && requestCode == 123) {
 //            // show newly added data
-//            List<FlashcardModel>  list = mFlashcardDatabaseHelper.readFlashcards();
-//            FlashcardModel lastCard = list.get(list.size() - 1);
+//            List<FlashcardModel>  mDeckModelList = mFlashcardDatabaseHelper.readFlashcards();
+//            FlashcardModel lastCard = mDeckModelList.get(mDeckModelList.size() - 1);
 //            mTextView.setText(lastCard.getWord() + " " + lastCard.getDefinition());
 //        }
 //    }
