@@ -1,8 +1,10 @@
 package com.adityap.flashy_createflashcards;
 
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,9 +22,8 @@ public class ReviewDeckActivity extends AppCompatActivity {
     TextView mTextViewDeckName;
     TextView mTextViewDeckDescription;
     ListView listViewCards;
-    EditText mEditTextAddCardWord;
-    EditText mEditTextAddCardDefinition;
-    Button buttonAddCard;
+    Button cancelAddCard;
+    Button buttonAddCardDialog;
     FlashcardDatabaseHelper mFlashcardDatabaseHelper;
     DeckModel deck;
     List<FlashcardModel> mCardModelList;
@@ -38,49 +39,112 @@ public class ReviewDeckActivity extends AppCompatActivity {
         mTextViewDeckName = findViewById(R.id.textViewDeckName);
         mTextViewDeckDescription = findViewById(R.id.textViewDeckDescription);
         listViewCards = findViewById(R.id.listViewCards);
-        mEditTextAddCardWord = findViewById(R.id.editTextAddCardWord);
-        mEditTextAddCardDefinition = findViewById(R.id.editTextAddCardDefinition);
-        buttonAddCard = findViewById(R.id.buttonAddCard);
+//        mEditTextAddCardWord = findViewById(R.id.editTextAddCardWord);
+//        mEditTextAddCardDefinition = findViewById(R.id.editTextAddCardDefinition);
+        buttonAddCardDialog = findViewById(R.id.buttonAddCard);
 
         mFlashcardDatabaseHelper = new FlashcardDatabaseHelper(this);
         mFlashcardDatabaseHelper.getReadableDatabase();
         Bundle bundle = new Bundle();
         bundle = getIntent().getExtras();
-        final int deckId = bundle.getInt("DeckId");
+        final DeckModel deckModel = bundle.getParcelable("Deck");
 
-        List<DeckModel> list = mFlashcardDatabaseHelper.readDeck();
-        DeckModel deck = list.get(deckId-1);
-        String deckName = deck.getDeckName();
-        String deckDescription = deck.getDeckDescription();
+//        List<DeckModel> list = mFlashcardDatabaseHelper.readDeck();
+//        DeckModel deck = list.get(deckId-1);
+//        String deckName = deck.getDeckName();
+//        String deckDescription = deck.getDeckDescription();
 
-        mTextViewDeckName.setText(deckName);
-        mTextViewDeckDescription.setText(deckDescription);
+        mTextViewDeckName.setText(deckModel.getDeckName());
+        mTextViewDeckDescription.setText(deckModel.getDeckDescription());
+
 
 
         //the following will be a way to add flashcards to this deck
 
-        buttonAddCard.setOnClickListener(new View.OnClickListener() {
+//        buttonAddCardDialog.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String cardWord = mEditTextAddCardWord.getText().toString();
+//                String cardDefinition = mEditTextAddCardDefinition.getText().toString();
+//                int deckIdForCard = deckModel.getId();
+//
+//
+//                mFlashcardDatabaseHelper.addFlashcard(new FlashcardModel(cardWord,cardDefinition,deckIdForCard));
+//
+//                Toast toast=Toast.makeText(getApplicationContext(),"Card Entered",Toast.LENGTH_SHORT);
+//                toast.show();
+//
+//                mCardModelList = mFlashcardDatabaseHelper.readFlashcards(deckIdForCard);
+//                mCardListAdapter.setCardModels(mCardModelList);
+//                mCardListAdapter.notifyDataSetChanged();
+//            }
+//        });
+
+        buttonAddCardDialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String cardWord = mEditTextAddCardWord.getText().toString();
-                String cardDefinition = mEditTextAddCardDefinition.getText().toString();
-                int deckIdForCard = deckId;
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(ReviewDeckActivity.this);
+                View mView = getLayoutInflater().inflate(R.layout.dialog_add_card, null);
+
+                Button buttonAddCard = mView.findViewById(R.id.buttonAddCard);
+
+//                final EditText mEditTextAddCardWord;
+//                final EditText mEditTextAddCardDefinition;
+//
+//                mEditTextAddCardWord = findViewById(R.id.addCardWordEditText);
+//                mEditTextAddCardDefinition = findViewById(R.id.addCardDefinitionEditText);
+                final EditText mEditTextAddCardWord = mView.findViewById(R.id.addCardWordEditText);
+                final EditText mEditTextAddCardDefinition = mView.findViewById(R.id.addCardDefinitionEditText);
+
+                mBuilder.setView(mView);
+               final AlertDialog dialog = mBuilder.create();
+
+                buttonAddCard.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.i("click","Click Successful");
+
+                        String cardWord = mEditTextAddCardWord.getText().toString();
+                        String cardDefinition = mEditTextAddCardDefinition.getText().toString();
+                        int deckIdForCard = deckModel.getId();
 
 
-                mFlashcardDatabaseHelper.addFlashcard(new FlashcardModel(cardWord,cardDefinition,deckIdForCard));
+                        mFlashcardDatabaseHelper.addFlashcard(new FlashcardModel(cardWord,cardDefinition,deckIdForCard));
 
-                Toast toast=Toast.makeText(getApplicationContext(),"Card Entered",Toast.LENGTH_SHORT);
-                toast.setMargin(50,50);
-                toast.show();
+                        Toast toast=Toast.makeText(getApplicationContext(),"Card Entered",Toast.LENGTH_SHORT);
+                        toast.show();
 
-                mCardModelList = mFlashcardDatabaseHelper.readFlashcards(deckId);
-                mCardListAdapter.setCardModels(mCardModelList);
-                mCardListAdapter.notifyDataSetChanged();
+                        mCardModelList = mFlashcardDatabaseHelper.readFlashcards(deckIdForCard);
+                        mCardListAdapter.setCardModels(mCardModelList);
+                        mCardListAdapter.notifyDataSetChanged();
+                        Log.i("flashcard","flashcard sent to db");
+
+                        dialog.dismiss();
+                        Log.i("finish","function finished");
+
+                    }
+                });
+                cancelAddCard = mView.findViewById(R.id.cancelAddCard);
+                cancelAddCard.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
             }
         });
 
+
+
+
+
+
+
+
+
         //the next few lines are about creating a listview to view the cards in the deck
-        mCardModelList = mFlashcardDatabaseHelper.readFlashcards(deckId);
+        mCardModelList = mFlashcardDatabaseHelper.readFlashcards(deckModel.getId());
         mCardListAdapter = new CardListAdapter(this,mCardModelList);
         listViewCards.setAdapter(mCardListAdapter);
 

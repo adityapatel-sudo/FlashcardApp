@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 Intent intent = new Intent(MainActivity.this, ReviewDeckActivity.class);
-                intent.putExtra("DeckId",mDeckModelList.get(position).getId());
+                intent.putExtra("Deck",mDeckModelList.get(position));
                 startActivity(intent);
             }
         });
