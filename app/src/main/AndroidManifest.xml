@@ -9,10 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".PlayCardActivity"></activity>
         <activity
             android:name=".ReviewDeckActivity"
             android:label="@string/title_activity_review_deck"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".CreateCardActivity" />
         <activity
             android:name=".MainActivity"

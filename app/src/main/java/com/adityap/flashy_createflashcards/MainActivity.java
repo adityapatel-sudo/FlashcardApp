@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
 
 
                 Intent intent = new Intent(MainActivity.this, CreateDeckActivity.class);
-
                 startActivityForResult(intent,123);
             }
 //            public void onClick(View view) {

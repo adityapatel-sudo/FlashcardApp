@@ -1,5 +1,6 @@
 package com.adityap.flashy_createflashcards;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +25,7 @@ public class ReviewDeckActivity extends AppCompatActivity {
     ListView listViewCards;
     Button cancelAddCard;
     Button buttonAddCardDialog;
+    Button beginCardPlaythrough;
     FlashcardDatabaseHelper mFlashcardDatabaseHelper;
     DeckModel deck;
     List<FlashcardModel> mCardModelList;
@@ -88,13 +90,13 @@ public class ReviewDeckActivity extends AppCompatActivity {
 
                 Button buttonAddCard = mView.findViewById(R.id.buttonAddCard);
 
-//                final EditText mEditTextAddCardWord;
-//                final EditText mEditTextAddCardDefinition;
+                final EditText mEditTextAddCardWord;
+                final EditText mEditTextAddCardDefinition;
 //
 //                mEditTextAddCardWord = findViewById(R.id.addCardWordEditText);
 //                mEditTextAddCardDefinition = findViewById(R.id.addCardDefinitionEditText);
-                final EditText mEditTextAddCardWord = mView.findViewById(R.id.addCardWordEditText);
-                final EditText mEditTextAddCardDefinition = mView.findViewById(R.id.addCardDefinitionEditText);
+                mEditTextAddCardWord = mView.findViewById(R.id.addCardWordEditText);
+                mEditTextAddCardDefinition = mView.findViewById(R.id.addCardDefinitionEditText);
 
                 mBuilder.setView(mView);
                final AlertDialog dialog = mBuilder.create();
@@ -135,21 +137,25 @@ public class ReviewDeckActivity extends AppCompatActivity {
             }
         });
 
-
-
-
-
-
-
-
-
         //the next few lines are about creating a listview to view the cards in the deck
         mCardModelList = mFlashcardDatabaseHelper.readFlashcards(deckModel.getId());
         mCardListAdapter = new CardListAdapter(this,mCardModelList);
         listViewCards.setAdapter(mCardListAdapter);
 
+        beginCardPlaythrough = this.findViewById(R.id.playDeckButton);
+        beginCardPlaythrough.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ReviewDeckActivity.this, PlayCardActivity.class);
+                intent.putExtra("Deck",deckModel);
+                startActivity(intent);
+            }
+        });
+
 
     }
+
+
 
 
 }
