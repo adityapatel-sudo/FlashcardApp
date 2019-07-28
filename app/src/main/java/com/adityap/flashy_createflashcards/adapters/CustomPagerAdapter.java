@@ -31,6 +31,7 @@ public class CustomPagerAdapter extends PagerAdapter {
                 LayoutInflater.from(mContext).inflate(R.layout.flashcard_item_layout, container, false);
         TextView frontText = flashCardView.findViewById(R.id.front_text);
         frontText.setText(mFlashcards.get(position).getWord());
+        container.addView(flashCardView);
         return flashCardView;
     }
 
@@ -42,5 +43,11 @@ public class CustomPagerAdapter extends PagerAdapter {
     @Override
     public boolean isViewFromObject(@NonNull View view, @NonNull Object o) {
         return view == o;
+    }
+
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        ConstraintLayout flashCardView = (ConstraintLayout) object;
+        container.removeView(flashCardView);
     }
 }

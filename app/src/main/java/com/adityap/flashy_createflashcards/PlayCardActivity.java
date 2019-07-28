@@ -6,6 +6,9 @@ import android.os.Bundle;
 
 import com.adityap.flashy_createflashcards.adapters.CustomPagerAdapter;
 import com.adityap.flashy_createflashcards.models.DeckModel;
+import com.adityap.flashy_createflashcards.models.FlashcardModel;
+
+import java.util.List;
 
 public class PlayCardActivity extends AppCompatActivity {
 
@@ -23,7 +26,9 @@ public class PlayCardActivity extends AppCompatActivity {
         bundle = getIntent().getExtras();
         final DeckModel deckModel = bundle.getParcelable("Deck");
 
+        List<FlashcardModel> listOfCards = mFlashcardDatabaseHelper.readFlashcards(deckModel.getId());
+
         mViewPager = findViewById(R.id.viewPager);
-        mViewPager.setAdapter(new CustomPagerAdapter(this,mFlashcardDatabaseHelper.readFlashcards(deckModel.getId())));
+        mViewPager.setAdapter(new CustomPagerAdapter(this,listOfCards));
     }
 }

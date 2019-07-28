@@ -61,27 +61,6 @@ public class ReviewDeckActivity extends AppCompatActivity {
 
 
 
-        //the following will be a way to add flashcards to this deck
-
-//        buttonAddCardDialog.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String cardWord = mEditTextAddCardWord.getText().toString();
-//                String cardDefinition = mEditTextAddCardDefinition.getText().toString();
-//                int deckIdForCard = deckModel.getId();
-//
-//
-//                mFlashcardDatabaseHelper.addFlashcard(new FlashcardModel(cardWord,cardDefinition,deckIdForCard));
-//
-//                Toast toast=Toast.makeText(getApplicationContext(),"Card Entered",Toast.LENGTH_SHORT);
-//                toast.show();
-//
-//                mCardModelList = mFlashcardDatabaseHelper.readFlashcards(deckIdForCard);
-//                mCardListAdapter.setCardModels(mCardModelList);
-//                mCardListAdapter.notifyDataSetChanged();
-//            }
-//        });
-
         buttonAddCardDialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
