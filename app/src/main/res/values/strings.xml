@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">Flashy-Create Flashcards!</string>
-    <string name="title_activity_main">MainActivity</string>
-    <string name="title_activity_create_deck">CreateDeckActivity</string>
-    <string name="title_activity_review_deck">ReviewDeckActivity</string>
+    <string name="app_name">Flashy</string>
+    <string name="title_activity_main">Flash Cards</string>
+    <string name="title_activity_create_deck">Create Deck</string>
+    <string name="title_activity_review_deck">Review Deck</string>
 </resources>
