@@ -48,6 +48,7 @@
         app:layout_constraintGuide_percent="0.5" />
 
     <Button
+        style="@style/Widget.AppCompat.Button.Colored"
         android:id="@+id/buttonAddCard"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -62,6 +63,7 @@
         app:layout_constraintTop_toBottomOf="@+id/addCardDefinitionEditText" />
 
     <Button
+        style="@style/Widget.AppCompat.Button.Colored"
         android:id="@+id/cancelAddCard"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

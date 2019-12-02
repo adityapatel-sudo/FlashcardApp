@@ -3,4 +3,6 @@
     <string name="title_activity_main">Flash Cards</string>
     <string name="title_activity_create_deck">Create Deck</string>
     <string name="title_activity_review_deck">Review Deck</string>
+    <string name="add_card">Add Card</string>
+    <string name="play_deck">Play Deck</string>
 </resources>
