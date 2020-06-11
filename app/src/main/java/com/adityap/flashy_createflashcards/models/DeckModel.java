@@ -7,17 +7,16 @@ import android.os.Parcelable;
  * Created by Aditya on 12/26/2018.
  */
 
-    public class DeckModel implements Parcelable {
-        private int mId;
-        private String mDeckName;
-        private String mDeckDescription;
+public class DeckModel implements Parcelable {
+    private int mId;
+    private String mDeckName;
+    private String mDeckDescription;
 
 
-
-        public DeckModel(String deckName, String deckDescription){
-            mDeckName = deckName;
-            mDeckDescription = deckDescription;
-        }
+    public DeckModel(String deckName, String deckDescription) {
+        mDeckName = deckName;
+        mDeckDescription = deckDescription;
+    }
 
     protected DeckModel(Parcel in) {
         mId = in.readInt();
@@ -38,28 +37,28 @@ import android.os.Parcelable;
     };
 
     public int getId() {
-            return mId;
-        }
+        return mId;
+    }
 
-        public void setId(int mId) {
-            this.mId = mId;
-        }
+    public void setId(int mId) {
+        this.mId = mId;
+    }
 
-        public String getDeckName() {
-            return mDeckName;
-        }
+    public String getDeckName() {
+        return mDeckName;
+    }
 
-        public void setDeckName(String mDeckName) {
-            this.mDeckName = mDeckName;
-        }
+    public void setDeckName(String mDeckName) {
+        this.mDeckName = mDeckName;
+    }
 
-        public String getDeckDescription() {
-            return mDeckDescription;
-        }
+    public String getDeckDescription() {
+        return mDeckDescription;
+    }
 
-        public void setDeckDescription(String mDeckDescription) {
-            this.mDeckDescription = mDeckDescription;
-        }
+    public void setDeckDescription(String mDeckDescription) {
+        this.mDeckDescription = mDeckDescription;
+    }
 
     @Override
     public int describeContents() {
@@ -73,20 +72,3 @@ import android.os.Parcelable;
         dest.writeString(mDeckDescription);
     }
 }
-
-
-//    public String getDeckName() {
-//        return mDeckName;
-//    }
-//
-//    public void setDeckname(String mDeckName) {
-//        this.mDeckName = mDeckname;
-//    }
-//
-//    public String getDeckDescription() {
-//        return mDeckDescription;
-//    }
-//
-//    public void setDeckDescription(String mDeckDescription) {
-//        this.mDeckDescription = mdeckDescription;
-//    }
