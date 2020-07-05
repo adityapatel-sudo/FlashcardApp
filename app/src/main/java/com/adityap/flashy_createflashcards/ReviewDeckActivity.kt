@@ -11,9 +11,9 @@ import androidx.appcompat.widget.Toolbar
 import com.adityap.flashy_createflashcards.adapters.CardListAdapter
 import com.adityap.flashy_createflashcards.models.DeckModel
 import com.adityap.flashy_createflashcards.models.FlashcardModel
-import kotlinx.android.synthetic.main.content_review_deck.*
-import kotlinx.android.synthetic.main.content_review_deck.buttonAddCard
+import kotlinx.android.synthetic.main.activity_review_deck.*
 import kotlinx.android.synthetic.main.dialog_add_card.*
+import kotlinx.android.synthetic.main.dialog_add_card.buttonAddCard
 
 class ReviewDeckActivity : AppCompatActivity() {
 
