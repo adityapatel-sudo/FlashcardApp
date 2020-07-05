@@ -1,96 +1,54 @@
-package com.adityap.flashy_createflashcards;
+package com.adityap.flashy_createflashcards
 
-import android.content.Intent;
-import android.os.Bundle;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.app.Activity
+import android.content.Intent
+import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.widget.AdapterView.OnItemClickListener
+import android.widget.ListView
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import com.adityap.flashy_createflashcards.adapters.DeckListAdapter
+import com.adityap.flashy_createflashcards.models.DeckModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.android.synthetic.main.activity_main.*
 
-import com.adityap.flashy_createflashcards.adapters.DeckListAdapter;
-import com.adityap.flashy_createflashcards.models.DeckModel;
+class MainActivity : AppCompatActivity() {
 
-import java.util.List;
+    var mFlashcardDatabaseHelper: FlashcardDatabaseHelper? = null
+    var mDeckListAdapter: DeckListAdapter? = null
+    var mDeckModelList: List<DeckModel>? = null
 
-public class MainActivity extends AppCompatActivity {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
+        setSupportActionBar(toolbar)
+        mFlashcardDatabaseHelper = FlashcardDatabaseHelper(this)
+        val fab = findViewById<View>(R.id.fab) as FloatingActionButton
+        fab.setOnClickListener {
+            startActivityForResult(Intent(this, CreateDeckActivity::class.java), 123)
+        }
 
-    TextView mTextView;
-    FlashcardDatabaseHelper mFlashcardDatabaseHelper;
-    TextView displayDeckTextView;
-    ListView deckListView;
-    DeckListAdapter mDeckListAdapter;
-    List<DeckModel> mDeckModelList;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        mFlashcardDatabaseHelper = new FlashcardDatabaseHelper(this);
-
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-
-                Intent intent = new Intent(MainActivity.this, CreateDeckActivity.class);
-                startActivityForResult(intent,123);
-            }
-//            public void onClick(View view) {
-//                Intent intent = new Intent(MainActivity.this, CreateCardActivity.class);
-//                startActivityForResult(intent, 123);
-//            }
-        });
-
-        mDeckModelList = mFlashcardDatabaseHelper.readDeck();
-        deckListView = findViewById(R.id.listview);
-        mDeckListAdapter = new DeckListAdapter(this, mDeckModelList);
-        deckListView.setAdapter(mDeckListAdapter);
-        deckListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                Intent intent = new Intent(MainActivity.this, ReviewDeckActivity.class);
-                intent.putExtra("Deck",mDeckModelList.get(position));
-                startActivity(intent);
-            }
-        });
-
-//        displayDeckTextView = findViewById(R.id.text_view);
-//
-//        List<DeckModel> mDeckModelList = mFlashcardDatabaseHelper.readDeck();
-//        DeckModel lastDeck = mDeckModelList.get(mDeckModelList.size() - 1);
-//        displayDeckTextView.setText(lastDeck.getDeckName() + " " + lastDeck.getDeckDescription());
-
-
+        mDeckModelList = mFlashcardDatabaseHelper!!.readDeck()
+        mDeckListAdapter = DeckListAdapter(this, mDeckModelList!!)
+        listview.setAdapter(mDeckListAdapter)
+        listview.setOnItemClickListener(OnItemClickListener { _, _, position, _ ->
+            val intent = Intent(this, ReviewDeckActivity::class.java)
+            intent.putExtra("Deck", mDeckModelList!![position])
+            startActivity(intent)
+        })
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == 123) {
-            Log.d("AdityaDebug","Result recieved");
-
-            mDeckModelList = mFlashcardDatabaseHelper.readDeck();
-            mDeckListAdapter.setDeckModels(mDeckModelList);
-            mDeckListAdapter.notifyDataSetChanged();
-
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == 123) {
+            Log.d("AdityaDebug", "Result recieved")
+            mDeckModelList = mFlashcardDatabaseHelper!!.readDeck()
+            mDeckListAdapter!!.deckModels = mDeckModelList!!
+            mDeckListAdapter!!.notifyDataSetChanged()
         }
     }
-
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (resultCode == RESULT_OK && requestCode == 123) {
-//            // show newly added data
-//            List<FlashcardModel>  mDeckModelList = mFlashcardDatabaseHelper.readFlashcards();
-//            FlashcardModel lastCard = mDeckModelList.get(mDeckModelList.size() - 1);
-//            mTextView.setText(lastCard.getWord() + " " + lastCard.getDefinition());
-//        }
-//    }
 }

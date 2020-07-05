@@ -1,46 +1,25 @@
-package com.adityap.flashy_createflashcards;
+package com.adityap.flashy_createflashcards
 
-import android.content.Intent;
+import android.app.Activity
+import android.content.Intent
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import kotlinx.android.synthetic.main.activity_create_card.*
 
-import androidx.appcompat.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+class CreateCardActivity : AppCompatActivity() {
+    var mFlashcardDatabaseHelper: FlashcardDatabaseHelper? = null
 
-public class CreateCardActivity extends AppCompatActivity {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_create_card)
+        mFlashcardDatabaseHelper = FlashcardDatabaseHelper(this)
 
-    public FlashcardDatabaseHelper mFlashcardDatabaseHelper;
-    private EditText mWordEditText;
-    private EditText mDefinitionEditText;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_card);
+        button.setOnClickListener {
+            // Write Function to add to the database
 
-        mFlashcardDatabaseHelper = new FlashcardDatabaseHelper(this);
-
-        mWordEditText = findViewById(R.id.editTextWord);
-        mDefinitionEditText = findViewById(R.id.editTextDefinition);
-//
-//        List<FlashcardModel> flashcardModels = mFlashcardDatabaseHelper.readFlashcards();
-//        mWordEditView.setText(flashcardModels.get(0).getWord());
-//        mDefinitionEditView.setText(flashcardModels.get(0).getDefinition());
-
-        Button endActivityButton = (Button) findViewById(R.id.button);
-        endActivityButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String editTextWord = mWordEditText.getText().toString();
-                String editTextDefinition = mDefinitionEditText.getText().toString();
-
-
-                // Write Function to add to the database
-                Intent result = new Intent();
-                setResult(RESULT_OK, result);
-                CreateCardActivity.this.finish();
-            }
-        });
+            val result = Intent()
+            setResult(Activity.RESULT_OK, result)
+            finish()
+        }
     }
-
 }

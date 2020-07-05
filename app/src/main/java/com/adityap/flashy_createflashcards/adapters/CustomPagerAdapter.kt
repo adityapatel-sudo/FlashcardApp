@@ -1,80 +1,48 @@
-package com.adityap.flashy_createflashcards.adapters;
+package com.adityap.flashy_createflashcards.adapters
 
-import android.content.Context;
-import android.graphics.Color;
-import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.viewpager.widget.PagerAdapter;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+import android.content.Context
+import android.graphics.Color
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.viewpager.widget.PagerAdapter
+import com.adityap.flashy_createflashcards.R
+import com.adityap.flashy_createflashcards.models.FlashcardModel
 
-import com.adityap.flashy_createflashcards.R;
-import com.adityap.flashy_createflashcards.models.FlashcardModel;
-
-import java.util.List;
-
-public class CustomPagerAdapter extends PagerAdapter {
-
-    private Context mContext;
-    private List<FlashcardModel> mFlashcards;
-
-    public CustomPagerAdapter(Context context, List<FlashcardModel> flashcards){
-        mContext = context;
-        mFlashcards = flashcards;
+class CustomPagerAdapter(private val mContext: Context, private val mFlashcards: List<FlashcardModel>) : PagerAdapter() {
+    override fun instantiateItem(container: ViewGroup, position: Int): Any {
+        val flashCardView = LayoutInflater.from(mContext).inflate(R.layout.flashcard_item_layout, container, false) as ConstraintLayout
+        val frontText = flashCardView.findViewById<TextView>(R.id.frontTextView)
+        val backText = flashCardView.findViewById<TextView>(R.id.backTextView)
+        frontText.text = mFlashcards[position].word
+        backText.text = mFlashcards[position].definition
+        container.addView(flashCardView)
+        backText.visibility = View.GONE
+        frontText.setBackgroundColor(Color.rgb(161, 239, 255))
+        frontText.setOnClickListener {
+            frontText.visibility = View.GONE
+            backText.visibility = View.VISIBLE
+        }
+        backText.setOnClickListener {
+            backText.visibility = View.GONE
+            frontText.visibility = View.VISIBLE
+        }
+        return flashCardView
     }
 
-    @NonNull
-    @Override
-    public Object instantiateItem(@NonNull ViewGroup container, final int position) {
-        ConstraintLayout flashCardView = (ConstraintLayout)
-                LayoutInflater.from(mContext).inflate(R.layout.flashcard_item_layout, container, false);
-        final TextView frontText = flashCardView.findViewById(R.id.frontTextView);
-        final TextView backText = flashCardView.findViewById(R.id.backTextView);
-
-
-        frontText.setText(mFlashcards.get(position).getWord());
-        backText.setText(mFlashcards.get(position).getDefinition());
-        container.addView(flashCardView);
-        backText.setVisibility(View.GONE);
-
-        frontText.setBackgroundColor(Color.rgb(161, 239, 255));
-
-        frontText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                frontText.setVisibility(View.GONE);
-                backText.setVisibility(View.VISIBLE);
-            }
-        });
-
-        backText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                backText.setVisibility(View.GONE);
-                frontText.setVisibility(View.VISIBLE);
-            }
-        });
-
-
-
-        return flashCardView;
+    override fun getCount(): Int {
+        return mFlashcards.size
     }
 
-    @Override
-    public int getCount() {
-        return mFlashcards.size();
+    override fun isViewFromObject(view: View, o: Any): Boolean {
+        return view === o
     }
 
-    @Override
-    public boolean isViewFromObject(@NonNull View view, @NonNull Object o) {
-        return view == o;
+    override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
+        val flashCardView = `object` as ConstraintLayout
+        container.removeView(flashCardView)
     }
 
-    @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
-        ConstraintLayout flashCardView = (ConstraintLayout) object;
-        container.removeView(flashCardView);
-    }
 }

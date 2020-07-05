@@ -1,63 +1,35 @@
-package com.adityap.flashy_createflashcards;
+package com.adityap.flashy_createflashcards
 
-import android.content.Intent;
-import android.os.Bundle;
+import android.app.Activity
+import android.content.Intent
+import android.os.Bundle
+import android.view.View
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import com.adityap.flashy_createflashcards.models.DeckModel
+import kotlinx.android.synthetic.main.activity_create_deck.*
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
+class CreateDeckActivity : AppCompatActivity() {
+    var mFlashcardDatabaseHelper: FlashcardDatabaseHelper? = null
 
-import com.adityap.flashy_createflashcards.models.DeckModel;
-
-public class CreateDeckActivity extends AppCompatActivity {
-
-    private TextView mTextView;
-    public FlashcardDatabaseHelper mFlashcardDatabaseHelper;
-
-    private EditText mEditTextDeckNameEnter;
-    private EditText mEditTextDeckDescriptionEnter;
-    private Button mButtonEnterDeckIntoDatabase;
-    private TextView mTextViewDisplayDeckFromDatabase;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_deck);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        setSupportActionBar(toolbar);
-
-        mFlashcardDatabaseHelper = new FlashcardDatabaseHelper(this);
-
-        mTextView = findViewById(R.id.textView);
-        // mFlashcardDatabaseHelper = new FlashcardDatabaseHelper(this);
-
-
-        mEditTextDeckNameEnter = findViewById(R.id.editTextDeckName);
-        mEditTextDeckDescriptionEnter = findViewById(R.id.editTextDescription);
-
-        mButtonEnterDeckIntoDatabase = findViewById(R.id.read_edittext_button);
-        mButtonEnterDeckIntoDatabase.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                //The following adds name and description of deck into the deck table in db
-                String editTextDeckName = mEditTextDeckNameEnter.getText().toString();
-                String editTextDeckDescription = mEditTextDeckDescriptionEnter.getText().toString();
-
-                mFlashcardDatabaseHelper.addDeck(new DeckModel(editTextDeckName, editTextDeckDescription));
-
-                Intent result = new Intent();
-                setResult(RESULT_OK, result);
-                CreateDeckActivity.this.finish();
-            }
-        });
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_create_deck)
+        val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
+        setSupportActionBar(toolbar)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        setSupportActionBar(toolbar)
+        mFlashcardDatabaseHelper = FlashcardDatabaseHelper(this)
+        read_edittext_button.setOnClickListener(View.OnClickListener { //The following adds name and description of deck into the deck table in db
+            val editTextDeckName = editTextDeckName.getText().toString()
+            val editTextDeckDescription = editTextDescription.getText().toString()
+            mFlashcardDatabaseHelper!!.addDeck(DeckModel(editTextDeckName, editTextDeckDescription))
+            val result = Intent()
+            setResult(Activity.RESULT_OK, result)
+            finish()
+        })
     }
-
 }
