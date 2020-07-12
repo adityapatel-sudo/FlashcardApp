@@ -48,7 +48,7 @@ class ReviewDeckActivity : AppCompatActivity() {
                 val cardDefinition = addCardDefinitionEditText.text.toString()
                 val deckIdForCard = deckModel.id
 
-                mFlashcardDatabaseHelper.addFlashcard(FlashcardModel(cardWord, cardDefinition, deckIdForCard))
+                mFlashcardDatabaseHelper.addFlashcard(FlashcardModel(deckIdForCard, cardWord, cardDefinition))
                 val toast = Toast.makeText(applicationContext, "Card Entered", Toast.LENGTH_SHORT)
                 toast.show()
                 mCardModelList = mFlashcardDatabaseHelper.readFlashcards(deckIdForCard)

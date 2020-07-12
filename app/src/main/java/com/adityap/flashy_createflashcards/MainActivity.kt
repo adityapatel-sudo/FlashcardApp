@@ -6,8 +6,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView.OnItemClickListener
-import android.widget.ListView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.adityap.flashy_createflashcards.adapters.DeckListAdapter
