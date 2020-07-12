@@ -38,7 +38,7 @@ class FlashcardDatabaseHelper  //private static final String FOREIGN_KEY_LINK = 
         val cardValues = ContentValues()
         cardValues.put(WORD, flashcard.word)
         cardValues.put(DEFINITION, flashcard.definition)
-        cardValues.put(DECK_ID, flashcard.getmId())
+        cardValues.put(DECK_ID, flashcard.id)
         val db = this.writableDatabase
         db.insert(FLASHCARD_TABLE, null, cardValues)
         db.close()
@@ -51,8 +51,10 @@ class FlashcardDatabaseHelper  //private static final String FOREIGN_KEY_LINK = 
         val deckList: MutableList<DeckModel> = ArrayList()
         if (cursor.moveToFirst()) {
             do {
-                val deck = DeckModel(cursor.getString(cursor.getColumnIndex(DECK_NAME)), cursor.getString(cursor.getColumnIndex(DECK_DESCRIPTION)))
-                deck.id = cursor.getInt(cursor.getColumnIndex(_ID))
+                val deck = DeckModel(
+                        cursor.getInt(cursor.getColumnIndex(_ID)),
+                        cursor.getString(cursor.getColumnIndex(DECK_NAME)),
+                        cursor.getString(cursor.getColumnIndex(DECK_DESCRIPTION)))
                 // Add book to books
                 deckList.add(deck)
             } while (cursor.moveToNext())
@@ -67,10 +69,7 @@ class FlashcardDatabaseHelper  //private static final String FOREIGN_KEY_LINK = 
         val flashcardList: MutableList<FlashcardModel> = ArrayList()
         if (cursor.moveToFirst()) {
             do {
-                val flashcard = FlashcardModel()
-                flashcard.setmId(cursor.getInt(cursor.getColumnIndex(DECK_ID)))
-                flashcard.word = cursor.getString(cursor.getColumnIndex(WORD))
-                flashcard.definition = cursor.getString(cursor.getColumnIndex(DEFINITION))
+                val flashcard = FlashcardModel(cursor.getInt(cursor.getColumnIndex(DECK_ID)), cursor.getString(cursor.getColumnIndex(WORD)), cursor.getString(cursor.getColumnIndex(DEFINITION)))
 
                 // Add book to books
                 if (deckId == cursor.getInt(cursor.getColumnIndex(DECK_ID))) {
