@@ -17,6 +17,10 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
+
+    //I am going to create a branch called BigBranch
+
+
     var mFlashcardDatabaseHelper: FlashcardDatabaseHelper? = null
     var mDeckListAdapter: DeckListAdapter? = null
     var mDeckModelList: List<DeckModel>? = null
