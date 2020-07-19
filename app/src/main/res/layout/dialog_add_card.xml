@@ -47,35 +47,5 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.5" />
 
-    <Button
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:id="@+id/buttonAddCard"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:text="Add Card"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/cancelAddCard"
-        app:layout_constraintTop_toBottomOf="@+id/addCardDefinitionEditText" />
-
-    <Button
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:id="@+id/cancelAddCard"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginRight="4dp"
-        android:text="@android:string/cancel"
-        app:layout_constraintEnd_toStartOf="@+id/guideline"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addCardDefinitionEditText" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
