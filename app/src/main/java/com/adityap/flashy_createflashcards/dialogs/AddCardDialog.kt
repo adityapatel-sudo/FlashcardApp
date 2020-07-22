@@ -10,13 +10,13 @@ import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.adityap.flashy_createflashcards.FlashcardDatabaseHelper
 import com.adityap.flashy_createflashcards.R
-import com.adityap.flashy_createflashcards.adapters.CardListAdapter
 import com.adityap.flashy_createflashcards.models.FlashcardModel
-import kotlinx.android.synthetic.main.dialog_add_card.*
 
 class AddCardDialog : DialogFragment() {
-    var mCardModelList: List<FlashcardModel>? = null
-    var mCardListAdapter: CardListAdapter? = null
+    interface Listener{
+        fun onSave()
+    }
+    var listener:Listener? = null
     lateinit var flashcardDatabaseHelper: FlashcardDatabaseHelper
 
 
@@ -41,37 +41,35 @@ class AddCardDialog : DialogFragment() {
             val builder = AlertDialog.Builder(it)
             val inflater = requireActivity().layoutInflater;
             val deckId = requireNotNull(arguments?.getInt(DECK_ID_KEY))
-            builder.setView(inflater.inflate(R.layout.dialog_add_card, null))
+
+            val dialogView = inflater.inflate(R.layout.dialog_add_card,null)
+
+            val addCardWordEditText = dialogView?.findViewById<EditText>(R.id.addCardWordEditText)
+            val addCardDefinitionEditText = dialogView?.findViewById<EditText>(R.id.addCardDefinitionEditText)
+
+
+            builder.setView(dialogView)
                     .setPositiveButton("add card",
                             DialogInterface.OnClickListener { dialog, id ->
-
-                                val addCardWordEditText = view?.findViewById<EditText>(R.id.addCardWordEditText)
-                                val addCardDefinitionEditText = view?.findViewById<EditText>(R.id.addCardDefinitionEditText)
-
-
                                 val cardWord = addCardWordEditText?.text.toString()
                                 val cardDefinition = addCardDefinitionEditText?.text.toString()
-                                val deckIdForCard = deckId;
 
-                                flashcardDatabaseHelper.addFlashcard(FlashcardModel(deckIdForCard, cardWord, cardDefinition))
+                                flashcardDatabaseHelper.addFlashcard(FlashcardModel(deckId, cardWord, cardDefinition))
+                                listener?.onSave()
                                 val toast = Toast.makeText(context, "Card Entered", Toast.LENGTH_SHORT)
                                 toast.show()
-                                mCardModelList = flashcardDatabaseHelper.readFlashcards(deckIdForCard)
-                                mCardListAdapter!!.setCardModels(mCardModelList!!)
-                                mCardListAdapter!!.notifyDataSetChanged()
                                 Log.i("flashcard", "flashcard sent to db")
+
                                 dialog.dismiss()
                                 Log.i("finish", "function finished")
 
-                                dismiss();
                             })
                     .setNegativeButton("cancel",
                             DialogInterface.OnClickListener { dialog, id ->
                                 dismiss();
-
                             })
             builder.create()
         } ?: throw IllegalStateException("Activity cannot be null")
-    }
 
+    }
 }

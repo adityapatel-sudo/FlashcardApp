@@ -16,8 +16,8 @@ class ReviewDeckActivity : AppCompatActivity() {
     }
     lateinit var mFlashcardDatabaseHelper: FlashcardDatabaseHelper
 
-    var mCardModelList: List<FlashcardModel>? = null
-    var mCardListAdapter: CardListAdapter? = null
+    lateinit var mCardModelList: List<FlashcardModel>
+    lateinit var mCardListAdapter: CardListAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,10 +26,13 @@ class ReviewDeckActivity : AppCompatActivity() {
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        mFlashcardDatabaseHelper = FlashcardDatabaseHelper(this)
-
         var bundle: Bundle = intent.extras
         val deckModel: DeckModel = bundle.getParcelable("Deck")
+
+        mFlashcardDatabaseHelper = FlashcardDatabaseHelper(this)
+        mCardModelList = mFlashcardDatabaseHelper.readFlashcards(deckModel.id)
+
+        mCardListAdapter = CardListAdapter(this, mCardModelList)
 
         textViewDeckName.text = deckModel.deckName
         textViewDeckDescription.text = deckModel.deckDescription
@@ -40,6 +43,13 @@ class ReviewDeckActivity : AppCompatActivity() {
 
     private fun showAddCardDialog(deckId: Int) {
         val dialog = AddCardDialog.getInstance(deckId)
+        dialog.listener = object : AddCardDialog.Listener{
+            override fun onSave() {
+                mCardModelList = mFlashcardDatabaseHelper.readFlashcards(deckId)
+                mCardListAdapter.notifyDataSetChanged()
+            }
+
+        }
         dialog.show(supportFragmentManager, TAG)
 
     }
