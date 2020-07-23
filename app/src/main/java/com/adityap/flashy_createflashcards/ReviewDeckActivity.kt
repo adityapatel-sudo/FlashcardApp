@@ -2,6 +2,7 @@ package com.adityap.flashy_createflashcards
 
 import android.os.Bundle
 import android.view.View
+import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.adityap.flashy_createflashcards.adapters.CardListAdapter
@@ -25,6 +26,7 @@ class ReviewDeckActivity : AppCompatActivity() {
         setContentView(R.layout.activity_review_deck)
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
+        var mCardListView = findViewById<ListView>(R.id.listViewCards)
 
         var bundle: Bundle = intent.extras
         val deckModel: DeckModel = bundle.getParcelable("Deck")
@@ -33,6 +35,7 @@ class ReviewDeckActivity : AppCompatActivity() {
         mCardModelList = mFlashcardDatabaseHelper.readFlashcards(deckModel.id)
 
         mCardListAdapter = CardListAdapter(this, mCardModelList)
+        mCardListView.adapter = mCardListAdapter
 
         textViewDeckName.text = deckModel.deckName
         textViewDeckDescription.text = deckModel.deckDescription
