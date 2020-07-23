@@ -38,7 +38,7 @@ class FlashcardDatabaseHelper  //private static final String FOREIGN_KEY_LINK = 
         val cardValues = ContentValues()
         cardValues.put(WORD, flashcard.word)
         cardValues.put(DEFINITION, flashcard.definition)
-        cardValues.put(DECK_ID, flashcard.id)
+        cardValues.put(DECK_ID, flashcard.deckId)
         val db = this.writableDatabase
         db.insert(FLASHCARD_TABLE, null, cardValues)
         db.close()
