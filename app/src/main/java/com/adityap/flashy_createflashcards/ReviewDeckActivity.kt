@@ -37,6 +37,7 @@ class ReviewDeckActivity : AppCompatActivity() {
         mCardListAdapter = CardListAdapter(this, mCardModelList)
         cardListview.adapter = mCardListAdapter
 
+
         textViewDeckName.text = deckModel.deckName
         textViewDeckDescription.text = deckModel.deckDescription
         buttonAddCard.setOnClickListener(View.OnClickListener {
