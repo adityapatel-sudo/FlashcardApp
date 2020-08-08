@@ -1,7 +1,10 @@
 package com.adityap.flashy_createflashcards
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.adityap.flashy_createflashcards.adapters.CardListAdapter
@@ -37,7 +40,23 @@ class ReviewDeckActivity : AppCompatActivity() {
         textViewDeckName.text = deckModel.deckName
         textViewDeckDescription.text = deckModel.deckDescription
         buttonAddCard.setOnClickListener(View.OnClickListener {
+            val text = "Hello toast!"
+            val duration = Toast.LENGTH_SHORT
+
+            val toast = Toast.makeText(applicationContext, text, duration)
+            toast.show()
+
             showAddCardDialog(deckModel.id)
+
+        })
+        playDeckButton.setOnClickListener(View.OnClickListener {
+            val text = "button works!"
+            val duration = Toast.LENGTH_SHORT
+
+            val toast = Toast.makeText(applicationContext, text, duration)
+            toast.show()
+
+            startPlayDeckActivity(deckModel.id)
         })
     }
 
@@ -51,6 +70,10 @@ class ReviewDeckActivity : AppCompatActivity() {
 
         }
         dialog.show(supportFragmentManager, TAG)
-
+    }
+    private fun startPlayDeckActivity(deckId: Int){
+        val intent = Intent(this, PlayCardActivity::class.java)
+        intent.putExtra("cards", deckId)
+        startActivity(intent)
     }
 }

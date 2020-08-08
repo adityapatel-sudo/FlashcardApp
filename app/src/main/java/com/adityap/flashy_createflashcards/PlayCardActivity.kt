@@ -17,7 +17,7 @@ class PlayCardActivity : AppCompatActivity() {
         val bundle: Bundle?
         bundle = intent.extras
         val deckModel: DeckModel? = bundle.getParcelable("Deck")
-        val listOfCards = mFlashcardDatabaseHelper.readFlashcards(deckModel?.id)
-        viewPager.setAdapter(CustomPagerAdapter(this, listOfCards))
+        val listOfCards = mFlashcardDatabaseHelper.readFlashcards(deckModel!!.id)
+        viewPager.adapter = CustomPagerAdapter(this, listOfCards)
     }
 }
