@@ -19,7 +19,7 @@ class ReviewDeckActivity : AppCompatActivity() {
     }
     lateinit var mFlashcardDatabaseHelper: FlashcardDatabaseHelper
 
-    lateinit var mCardModelList: List<FlashcardModel>
+    lateinit var mCardModelList:  MutableList<FlashcardModel>
     lateinit var mCardListAdapter: CardListAdapter
 
 
@@ -32,15 +32,20 @@ class ReviewDeckActivity : AppCompatActivity() {
         var bundle: Bundle = intent.extras
         val deckModel: DeckModel = bundle.getParcelable("Deck")
 
+
+        mCardModelList = mutableListOf()
         mFlashcardDatabaseHelper = FlashcardDatabaseHelper(this)
-        mCardModelList = mFlashcardDatabaseHelper.readFlashcards(deckModel.id)
+        mCardModelList.addAll(mFlashcardDatabaseHelper.readFlashcards(deckModel.id))
 
         mCardListAdapter = CardListAdapter(this, mCardModelList)
 
         textViewDeckName.text = deckModel.deckName
         textViewDeckDescription.text = deckModel.deckDescription
+
+        listViewCards.adapter = mCardListAdapter
+
         buttonAddCard.setOnClickListener(View.OnClickListener {
-            val text = "Hello toast!"
+            val text = "Hello toast 24365!"
             val duration = Toast.LENGTH_SHORT
 
             val toast = Toast.makeText(applicationContext, text, duration)
@@ -64,8 +69,10 @@ class ReviewDeckActivity : AppCompatActivity() {
         val dialog = AddCardDialog.getInstance(deckId)
         dialog.listener = object : AddCardDialog.Listener{
             override fun onSave() {
-                mCardModelList = mFlashcardDatabaseHelper.readFlashcards(deckId)
+                mCardModelList.clear()
+                mCardModelList.addAll(mFlashcardDatabaseHelper.readFlashcards(deckId))
                 mCardListAdapter.notifyDataSetChanged()
+                Log.d("tag","database refreshed")
             }
 
         }

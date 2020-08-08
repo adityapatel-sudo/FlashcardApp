@@ -42,6 +42,7 @@ class FlashcardDatabaseHelper  //private static final String FOREIGN_KEY_LINK = 
         val db = this.writableDatabase
         db.insert(FLASHCARD_TABLE, null, cardValues)
         db.close()
+        Log.d("tag", "card added")
     }
 
     fun readDeck(): List<DeckModel> {
