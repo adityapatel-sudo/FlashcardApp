@@ -15,9 +15,7 @@ import java.util.*
 class FlashcardDatabaseHelper  //private static final String FOREIGN_KEY_LINK = "ALTER " + CREATE_TABLE_CARD + " ADD FOREIGN KEY (" + DECK_ID + ") REFERENCES " + CREATE_TABLE_DECK + " (" + _ID + ");";
 (context: Context?) : SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
     override fun onCreate(sqLiteDatabase: SQLiteDatabase) {
-        Log.d("debugKey", CREATE_TABLE_DECK)
         sqLiteDatabase.execSQL(CREATE_TABLE_DECK)
-        Log.d("debugKey", CREATE_TABLE_CARD)
         sqLiteDatabase.execSQL(CREATE_TABLE_CARD)
 
         //sqLiteDatabase.execSQL(FOREIGN_KEY_LINK);
@@ -30,7 +28,6 @@ class FlashcardDatabaseHelper  //private static final String FOREIGN_KEY_LINK = 
         deckValues.put(DECK_DESCRIPTION, deckModel.deckDescription)
         val db = this.writableDatabase
         db.insert(DECK_TABLE, null, deckValues)
-        Log.d("AdityaDebug", "Record insereted")
         db.close()
     }
 
@@ -42,7 +39,6 @@ class FlashcardDatabaseHelper  //private static final String FOREIGN_KEY_LINK = 
         val db = this.writableDatabase
         db.insert(FLASHCARD_TABLE, null, cardValues)
         db.close()
-        Log.d("tag", "card added")
     }
 
     fun readDeck(): List<DeckModel> {

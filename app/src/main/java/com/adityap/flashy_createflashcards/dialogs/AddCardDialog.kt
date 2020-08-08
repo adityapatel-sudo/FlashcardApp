@@ -56,12 +56,8 @@ class AddCardDialog : DialogFragment() {
 
                                 flashcardDatabaseHelper.addFlashcard(FlashcardModel(deckId, cardWord, cardDefinition))
                                 listener?.onSave()
-                                val toast = Toast.makeText(context, "Card Entered", Toast.LENGTH_SHORT)
-                                toast.show()
-                                Log.i("flashcard", "flashcard sent to db")
 
                                 dialog.dismiss()
-                                Log.i("finish", "function finished")
 
                             })
                     .setNegativeButton("cancel",

@@ -45,22 +45,10 @@ class ReviewDeckActivity : AppCompatActivity() {
         listViewCards.adapter = mCardListAdapter
 
         buttonAddCard.setOnClickListener(View.OnClickListener {
-            val text = "Hello toast 24365!"
-            val duration = Toast.LENGTH_SHORT
-
-            val toast = Toast.makeText(applicationContext, text, duration)
-            toast.show()
-
             showAddCardDialog(deckModel.id)
 
         })
         playDeckButton.setOnClickListener(View.OnClickListener {
-            val text = "button works!"
-            val duration = Toast.LENGTH_SHORT
-
-            val toast = Toast.makeText(applicationContext, text, duration)
-            toast.show()
-
             startPlayDeckActivity(deckModel.id)
         })
     }
@@ -72,7 +60,6 @@ class ReviewDeckActivity : AppCompatActivity() {
                 mCardModelList.clear()
                 mCardModelList.addAll(mFlashcardDatabaseHelper.readFlashcards(deckId))
                 mCardListAdapter.notifyDataSetChanged()
-                Log.d("tag","database refreshed")
             }
 
         }
