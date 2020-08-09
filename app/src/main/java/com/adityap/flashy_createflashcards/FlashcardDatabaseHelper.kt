@@ -31,13 +31,19 @@ class FlashcardDatabaseHelper  //private static final String FOREIGN_KEY_LINK = 
         db.close()
     }
 
-    fun addFlashcard(flashcard: FlashcardModel) {
+    fun addFlashcard(flashcard: FlashcardModel, deckId: Int) {
         val cardValues = ContentValues()
         cardValues.put(WORD, flashcard.word)
         cardValues.put(DEFINITION, flashcard.definition)
-        cardValues.put(DECK_ID, flashcard.id)
+        cardValues.put(DECK_ID, deckId)
         val db = this.writableDatabase
         db.insert(FLASHCARD_TABLE, null, cardValues)
+        db.close()
+    }
+
+    fun deleteFlashcard(flashcardId: Int){
+        val db = this.writableDatabase
+        db.delete(FLASHCARD_TABLE, _ID + "=" + flashcardId,null)
         db.close()
     }
 
@@ -67,7 +73,7 @@ class FlashcardDatabaseHelper  //private static final String FOREIGN_KEY_LINK = 
         if (cursor.moveToFirst()) {
             do {
                 val flashcard = FlashcardModel(
-                        cursor.getInt(cursor.getColumnIndex(DECK_ID)),
+                        cursor.getInt(cursor.getColumnIndex(_ID)),
                         cursor.getString(cursor.getColumnIndex(WORD)),
                         cursor.getString(cursor.getColumnIndex(DEFINITION)))
 

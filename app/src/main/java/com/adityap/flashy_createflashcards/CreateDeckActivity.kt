@@ -21,8 +21,8 @@ class CreateDeckActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         mFlashcardDatabaseHelper = FlashcardDatabaseHelper(this)
         read_edittext_button.setOnClickListener(View.OnClickListener { //The following adds name and description of deck into the deck table in db
-            val editTextDeckName = editTextDeckName.getText().toString()
-            val editTextDeckDescription = editTextDescription.getText().toString()
+            val editTextDeckName = editTextDeckName.text.toString()
+            val editTextDeckDescription = editTextDescription.text.toString()
             mFlashcardDatabaseHelper!!.addDeck(DeckModel(deckName = editTextDeckName, deckDescription = editTextDeckDescription))
             val result = Intent()
             setResult(Activity.RESULT_OK, result)

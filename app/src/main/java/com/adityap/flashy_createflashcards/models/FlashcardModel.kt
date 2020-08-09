@@ -10,8 +10,7 @@ data class FlashcardModel(val id: Int = 0, val word: String, val definition: Str
     constructor(parcel: Parcel) : this(
             parcel.readInt(),
             requireNotNull(parcel.readString()),
-            requireNotNull(parcel.readString())) {
-    }
+            requireNotNull(parcel.readString()))
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeInt(id)

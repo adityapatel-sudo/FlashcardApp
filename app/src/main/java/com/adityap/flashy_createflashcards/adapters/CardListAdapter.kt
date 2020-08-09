@@ -1,19 +1,21 @@
 package com.adityap.flashy_createflashcards.adapters
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import com.adityap.flashy_createflashcards.FlashcardDatabaseHelper
 import com.adityap.flashy_createflashcards.R
+import com.adityap.flashy_createflashcards.dialogs.AddCardDialog
 import com.adityap.flashy_createflashcards.models.FlashcardModel
+import kotlinx.android.synthetic.main.custom_cardlist_item_view.view.*
 import kotlinx.android.synthetic.main.custom_deckname_item_view.view.*
 
-class CardListAdapter(private val mContext: Context, var flashcardModelList: List<FlashcardModel>) : BaseAdapter() {
+class CardListAdapter(private val mContext: Context, var flashcardModelList: MutableList<FlashcardModel>, val deckId:Int) : BaseAdapter() {
+    lateinit var mFlashcardDatabaseHelper: FlashcardDatabaseHelper
 
-    fun setCardModels(mFlashcardModel: List<FlashcardModel>) {
-        flashcardModelList = mFlashcardModel
-    }
 
     override fun getCount(): Int {
         return flashcardModelList.size
@@ -24,16 +26,25 @@ class CardListAdapter(private val mContext: Context, var flashcardModelList: Lis
     }
 
     override fun getItemId(position: Int): Long {
-        return 0
+        return flashcardModelList[position].id.toLong()
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val layoutInflater = mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val returnView = convertView ?: layoutInflater.inflate(R.layout.custom_deckname_item_view, null)
+        val returnView = convertView ?: layoutInflater.inflate(R.layout.custom_cardlist_item_view, null)
         returnView.let {
-            it.textview_deckName.text = flashcardModelList[position].word
-            it.textview_deckDescription.text = flashcardModelList[position].definition
+            it.cardName.text = flashcardModelList[position].word
+            it.cardDescription.text = flashcardModelList[position].definition
+            it.deleteCardButton.setOnClickListener(View.OnClickListener {
+                mFlashcardDatabaseHelper = FlashcardDatabaseHelper(mContext)
+                mFlashcardDatabaseHelper.deleteFlashcard(flashcardModelList[position].id)
+
+                flashcardModelList.clear()
+                flashcardModelList.addAll(mFlashcardDatabaseHelper.readFlashcards(deckId))
+                notifyDataSetChanged()
+            })
         }
+
 
         return returnView
     }

@@ -13,10 +13,11 @@ import com.adityap.flashy_createflashcards.R
 import com.adityap.flashy_createflashcards.models.FlashcardModel
 
 class AddCardDialog : DialogFragment() {
-    interface Listener{
+    interface Listener {
         fun onSave()
     }
-    var listener:Listener? = null
+
+    var listener: Listener? = null
     lateinit var flashcardDatabaseHelper: FlashcardDatabaseHelper
 
 
@@ -39,10 +40,10 @@ class AddCardDialog : DialogFragment() {
         return activity?.let {
             // Use the Builder class for convenient dialog construction
             val builder = AlertDialog.Builder(it)
-            val inflater = requireActivity().layoutInflater;
+            val inflater = requireActivity().layoutInflater
             val deckId = requireNotNull(arguments?.getInt(DECK_ID_KEY))
 
-            val dialogView = inflater.inflate(R.layout.dialog_add_card,null)
+            val dialogView = inflater.inflate(R.layout.dialog_add_card, null)
 
             val addCardWordEditText = dialogView?.findViewById<EditText>(R.id.addCardWordEditText)
             val addCardDefinitionEditText = dialogView?.findViewById<EditText>(R.id.addCardDefinitionEditText)
@@ -54,7 +55,9 @@ class AddCardDialog : DialogFragment() {
                                 val cardWord = addCardWordEditText?.text.toString()
                                 val cardDefinition = addCardDefinitionEditText?.text.toString()
 
-                                flashcardDatabaseHelper.addFlashcard(FlashcardModel(deckId, cardWord, cardDefinition))
+                                flashcardDatabaseHelper.addFlashcard(FlashcardModel(
+                                        word = cardWord,
+                                        definition = cardDefinition), deckId)
                                 listener?.onSave()
 
                                 dialog.dismiss()
@@ -62,7 +65,7 @@ class AddCardDialog : DialogFragment() {
                             })
                     .setNegativeButton("cancel",
                             DialogInterface.OnClickListener { dialog, id ->
-                                dismiss();
+                                dismiss()
                             })
             builder.create()
         } ?: throw IllegalStateException("Activity cannot be null")

@@ -37,7 +37,7 @@ class ReviewDeckActivity : AppCompatActivity() {
         mFlashcardDatabaseHelper = FlashcardDatabaseHelper(this)
         mCardModelList.addAll(mFlashcardDatabaseHelper.readFlashcards(deckModel.id))
 
-        mCardListAdapter = CardListAdapter(this, mCardModelList)
+        mCardListAdapter = CardListAdapter(this, mCardModelList, deckModel.id)
 
         textViewDeckName.text = deckModel.deckName
         textViewDeckDescription.text = deckModel.deckDescription
