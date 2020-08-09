@@ -67,7 +67,7 @@ class ReviewDeckActivity : AppCompatActivity() {
     }
     private fun startPlayDeckActivity(deckId: Int){
         val intent = Intent(this, PlayCardActivity::class.java)
-        intent.putExtra("cards", deckId)
+        intent.putExtra("Deck", deckId)
         startActivity(intent)
     }
 }
