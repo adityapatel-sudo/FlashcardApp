@@ -1,8 +1,10 @@
 package com.adityap.flashy_createflashcards
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import android.widget.ListView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.adityap.flashy_createflashcards.adapters.CardListAdapter
@@ -17,7 +19,7 @@ class ReviewDeckActivity : AppCompatActivity() {
     }
     lateinit var mFlashcardDatabaseHelper: FlashcardDatabaseHelper
 
-    lateinit var mCardModelList: List<FlashcardModel>
+    lateinit var mCardModelList:  MutableList<FlashcardModel>
     lateinit var mCardListAdapter: CardListAdapter
 
 
@@ -31,17 +33,24 @@ class ReviewDeckActivity : AppCompatActivity() {
         var bundle: Bundle = intent.extras
         val deckModel: DeckModel = bundle.getParcelable("Deck")
 
+
+        mCardModelList = mutableListOf()
         mFlashcardDatabaseHelper = FlashcardDatabaseHelper(this)
-        mCardModelList = mFlashcardDatabaseHelper.readFlashcards(deckModel.id)
+        mCardModelList.addAll(mFlashcardDatabaseHelper.readFlashcards(deckModel.id))
 
-        mCardListAdapter = CardListAdapter(this, mCardModelList)
-        cardListview.adapter = mCardListAdapter
-
+        mCardListAdapter = CardListAdapter(this, mCardModelList, deckModel.id)
 
         textViewDeckName.text = deckModel.deckName
         textViewDeckDescription.text = deckModel.deckDescription
+
+        listViewCards.adapter = mCardListAdapter
+
         buttonAddCard.setOnClickListener(View.OnClickListener {
             showAddCardDialog(deckModel.id)
+
+        })
+        playDeckButton.setOnClickListener(View.OnClickListener {
+            startPlayDeckActivity(deckModel.id)
         })
     }
 
@@ -49,12 +58,17 @@ class ReviewDeckActivity : AppCompatActivity() {
         val dialog = AddCardDialog.getInstance(deckId)
         dialog.listener = object : AddCardDialog.Listener{
             override fun onSave() {
-                mCardModelList = mFlashcardDatabaseHelper.readFlashcards(deckId)
+                mCardModelList.clear()
+                mCardModelList.addAll(mFlashcardDatabaseHelper.readFlashcards(deckId))
                 mCardListAdapter.notifyDataSetChanged()
             }
 
         }
         dialog.show(supportFragmentManager, TAG)
-
+    }
+    private fun startPlayDeckActivity(deckId: Int){
+        val intent = Intent(this, PlayCardActivity::class.java)
+        intent.putExtra("Deck", deckId)
+        startActivity(intent)
     }
 }

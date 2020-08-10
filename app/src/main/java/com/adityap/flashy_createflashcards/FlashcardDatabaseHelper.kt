@@ -15,9 +15,7 @@ import java.util.*
 class FlashcardDatabaseHelper  //private static final String FOREIGN_KEY_LINK = "ALTER " + CREATE_TABLE_CARD + " ADD FOREIGN KEY (" + DECK_ID + ") REFERENCES " + CREATE_TABLE_DECK + " (" + _ID + ");";
 (context: Context?) : SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
     override fun onCreate(sqLiteDatabase: SQLiteDatabase) {
-        Log.d("debugKey", CREATE_TABLE_DECK)
         sqLiteDatabase.execSQL(CREATE_TABLE_DECK)
-        Log.d("debugKey", CREATE_TABLE_CARD)
         sqLiteDatabase.execSQL(CREATE_TABLE_CARD)
 
         //sqLiteDatabase.execSQL(FOREIGN_KEY_LINK);
@@ -30,17 +28,23 @@ class FlashcardDatabaseHelper  //private static final String FOREIGN_KEY_LINK = 
         deckValues.put(DECK_DESCRIPTION, deckModel.deckDescription)
         val db = this.writableDatabase
         db.insert(DECK_TABLE, null, deckValues)
-        Log.d("AdityaDebug", "Record insereted")
         db.close()
     }
 
-    fun addFlashcard(flashcard: FlashcardModel) {
+    fun addFlashcard(flashcard: FlashcardModel, deckId: Int) {
         val cardValues = ContentValues()
         cardValues.put(WORD, flashcard.word)
         cardValues.put(DEFINITION, flashcard.definition)
-        cardValues.put(DECK_ID, flashcard.deckId)
+        cardValues.put(DECK_ID, deckId)
+
         val db = this.writableDatabase
         db.insert(FLASHCARD_TABLE, null, cardValues)
+        db.close()
+    }
+
+    fun deleteFlashcard(flashcardId: Int){
+        val db = this.writableDatabase
+        db.delete(FLASHCARD_TABLE, _ID + "=" + flashcardId,null)
         db.close()
     }
 
@@ -70,7 +74,7 @@ class FlashcardDatabaseHelper  //private static final String FOREIGN_KEY_LINK = 
         if (cursor.moveToFirst()) {
             do {
                 val flashcard = FlashcardModel(
-                        cursor.getInt(cursor.getColumnIndex(DECK_ID)),
+                        cursor.getInt(cursor.getColumnIndex(_ID)),
                         cursor.getString(cursor.getColumnIndex(WORD)),
                         cursor.getString(cursor.getColumnIndex(DEFINITION)))
 

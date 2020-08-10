@@ -13,11 +13,9 @@ class PlayCardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_play_card)
         mFlashcardDatabaseHelper = FlashcardDatabaseHelper(this)
-        mFlashcardDatabaseHelper.readableDatabase
-        val bundle: Bundle?
-        bundle = intent.extras
-        val deckModel: DeckModel? = bundle.getParcelable("Deck")
-        val listOfCards = mFlashcardDatabaseHelper.readFlashcards(deckModel?.id)
-        viewPager.setAdapter(CustomPagerAdapter(this, listOfCards))
+        val bundle: Bundle? = intent.extras
+        val deckModelId: Int? = bundle?.getInt("Deck")
+        val listOfCards = mFlashcardDatabaseHelper.readFlashcards(deckModelId)
+        viewPager.adapter = CustomPagerAdapter(this, listOfCards)
     }
 }

@@ -13,14 +13,18 @@ import com.adityap.flashy_createflashcards.models.FlashcardModel
 
 class CustomPagerAdapter(private val mContext: Context, private val mFlashcards: List<FlashcardModel>) : PagerAdapter() {
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
+
         val flashCardView = LayoutInflater.from(mContext).inflate(R.layout.flashcard_item_layout, container, false) as ConstraintLayout
         val frontText = flashCardView.findViewById<TextView>(R.id.frontTextView)
         val backText = flashCardView.findViewById<TextView>(R.id.backTextView)
+
         frontText.text = mFlashcards[position].word
         backText.text = mFlashcards[position].definition
         container.addView(flashCardView)
         backText.visibility = View.GONE
         frontText.setBackgroundColor(Color.rgb(161, 239, 255))
+
+
         frontText.setOnClickListener {
             frontText.visibility = View.GONE
             backText.visibility = View.VISIBLE

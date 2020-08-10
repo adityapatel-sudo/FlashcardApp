@@ -36,18 +36,17 @@ class MainActivity : AppCompatActivity() {
 
         mDeckModelList = mFlashcardDatabaseHelper!!.readDeck()
         mDeckListAdapter = DeckListAdapter(this, mDeckModelList!!)
-        listview.setAdapter(mDeckListAdapter)
-        listview.setOnItemClickListener(OnItemClickListener { _, _, position, _ ->
+        listview.adapter = mDeckListAdapter
+        listview.onItemClickListener = OnItemClickListener { _, _, position, _ ->
             val intent = Intent(this, ReviewDeckActivity::class.java)
             intent.putExtra("Deck", mDeckModelList!![position])
             startActivity(intent)
-        })
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == 123) {
-            Log.d("AdityaDebug", "Result recieved")
             mDeckModelList = mFlashcardDatabaseHelper!!.readDeck()
             mDeckListAdapter!!.deckModels = mDeckModelList!!
             mDeckListAdapter!!.notifyDataSetChanged()
