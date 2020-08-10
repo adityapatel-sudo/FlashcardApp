@@ -26,7 +26,7 @@ class CardListAdapter(private val mContext: Context, var flashcardModelList: Mut
     }
 
     override fun getItemId(position: Int): Long {
-        return flashcardModelList[position].id.toLong()
+        return flashcardModelList[position].deckId.toLong()
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -37,7 +37,7 @@ class CardListAdapter(private val mContext: Context, var flashcardModelList: Mut
             it.cardDescription.text = flashcardModelList[position].definition
             it.deleteCardButton.setOnClickListener(View.OnClickListener {
                 mFlashcardDatabaseHelper = FlashcardDatabaseHelper(mContext)
-                mFlashcardDatabaseHelper.deleteFlashcard(flashcardModelList[position].id)
+                mFlashcardDatabaseHelper.deleteFlashcard(flashcardModelList[position].deckId)
 
                 flashcardModelList.clear()
                 flashcardModelList.addAll(mFlashcardDatabaseHelper.readFlashcards(deckId))
