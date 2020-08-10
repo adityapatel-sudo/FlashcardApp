@@ -6,14 +6,14 @@ import android.os.Parcelable
 /**
  * Created by Aditya on 9/30/2018.
  */
-data class FlashcardModel(val id: Int = 0, val word: String, val definition: String) : Parcelable {
+data class FlashcardModel(val deckId: Int = 0, val word: String, val definition: String) : Parcelable {
     constructor(parcel: Parcel) : this(
             parcel.readInt(),
             requireNotNull(parcel.readString()),
             requireNotNull(parcel.readString()))
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeInt(id)
+        parcel.writeInt(deckId)
         parcel.writeString(word)
         parcel.writeString(definition)
     }

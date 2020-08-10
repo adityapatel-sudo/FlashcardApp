@@ -36,6 +36,7 @@ class FlashcardDatabaseHelper  //private static final String FOREIGN_KEY_LINK = 
         cardValues.put(WORD, flashcard.word)
         cardValues.put(DEFINITION, flashcard.definition)
         cardValues.put(DECK_ID, deckId)
+
         val db = this.writableDatabase
         db.insert(FLASHCARD_TABLE, null, cardValues)
         db.close()

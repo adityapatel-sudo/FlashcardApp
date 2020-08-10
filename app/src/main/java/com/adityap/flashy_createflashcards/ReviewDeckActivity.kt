@@ -28,6 +28,7 @@ class ReviewDeckActivity : AppCompatActivity() {
         setContentView(R.layout.activity_review_deck)
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
+        val cardListview = findViewById<ListView>(R.id.listViewCards)
 
         var bundle: Bundle = intent.extras
         val deckModel: DeckModel = bundle.getParcelable("Deck")
