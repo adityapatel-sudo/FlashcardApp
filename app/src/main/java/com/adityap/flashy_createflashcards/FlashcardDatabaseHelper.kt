@@ -4,7 +4,6 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import android.util.Log
 import com.adityap.flashy_createflashcards.models.DeckModel
 import com.adityap.flashy_createflashcards.models.FlashcardModel
 import java.util.*
@@ -46,6 +45,17 @@ class FlashcardDatabaseHelper  //private static final String FOREIGN_KEY_LINK = 
         val db = this.writableDatabase
         db.delete(FLASHCARD_TABLE, _ID + "=" + flashcardId,null)
         db.close()
+    }
+
+    fun deleteDeck(deckId: Int){
+        val db = this.writableDatabase
+        db.delete(DECK_TABLE, _ID + "=" + deckId,null)
+        db.close()
+
+        val cardDeck = this.readFlashcards(deckId)
+        for(i in 0 until cardDeck.size){
+            this.deleteFlashcard(cardDeck[i].id)
+        }
     }
 
     fun readDeck(): List<DeckModel> {
