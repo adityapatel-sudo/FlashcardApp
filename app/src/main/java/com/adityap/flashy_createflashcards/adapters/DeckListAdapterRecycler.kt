@@ -17,10 +17,15 @@ import com.adityap.flashy_createflashcards.FlashcardDatabaseHelper
 import com.adityap.flashy_createflashcards.R
 import com.adityap.flashy_createflashcards.ReviewDeckActivity
 import com.adityap.flashy_createflashcards.models.DeckModel
+import com.adityap.flashy_createflashcards.models.FlashcardModel
+import com.google.android.material.snackbar.Snackbar
 
 class DeckListAdapterRecycler(private val mContext: Context, var deckModelList: MutableList<DeckModel>)
     :RecyclerView.Adapter<DeckListAdapterRecycler.CardHolder>(){
 
+    private var removedPosition: Int = 0
+    lateinit var removedDeck : DeckModel
+    lateinit var removedCards : List<FlashcardModel>
     lateinit var mFlashcardDatabaseHelper: FlashcardDatabaseHelper
 
     class CardHolder(val cardView: CardView) : RecyclerView.ViewHolder(cardView)
@@ -57,10 +62,27 @@ class DeckListAdapterRecycler(private val mContext: Context, var deckModelList: 
 
     fun removeItem(cardHolder: CardHolder){
         mFlashcardDatabaseHelper = FlashcardDatabaseHelper(mContext)
+
+        removedPosition = cardHolder.adapterPosition
+        removedDeck = mFlashcardDatabaseHelper.readDeck()[removedPosition]
+        removedCards = mFlashcardDatabaseHelper.readFlashcards(removedDeck.id)
+
+
         mFlashcardDatabaseHelper.deleteDeck(deckModelList[cardHolder.adapterPosition].id)
         deckModelList.clear()
         deckModelList.addAll(mFlashcardDatabaseHelper.readDeck())
-        notifyDataSetChanged()
+        notifyItemRemoved(cardHolder.adapterPosition)
+
+        Snackbar.make(cardHolder.itemView, "${removedDeck.deckName} deleted.", Snackbar.LENGTH_LONG).setAction("UNDO") {
+            mFlashcardDatabaseHelper.addDeck(removedDeck)
+            for(i in 0 until removedCards.size){
+                mFlashcardDatabaseHelper.addFlashcard(removedCards[i], removedDeck.id)
+            }
+
+            deckModelList.clear()
+            deckModelList.addAll(mFlashcardDatabaseHelper.readDeck())
+            notifyDataSetChanged()
+        }.show()
     }
 
 
