@@ -52,19 +52,15 @@ class DeckListAdapterRecycler(private val mContext: Context, var deckModelList: 
             cardView.findViewById<TextView>(R.id.cardDescription).apply {
                 text = deckModelList[position].deckDescription
             }
-            cardView.findViewById<Button>(R.id.deleteCardButton).apply {
-                setOnClickListener(View.OnClickListener {
-                    Log.d("TAG", "Delete Button WORKS!!!")
-
-                    mFlashcardDatabaseHelper = FlashcardDatabaseHelper(mContext)
-
-                    mFlashcardDatabaseHelper.deleteDeck(deckModelList[position].id)
-                    deckModelList.clear()
-                    deckModelList.addAll(mFlashcardDatabaseHelper.readDeck())
-                    notifyDataSetChanged()
-                })
-            }
         }
+    }
+
+    fun removeItem(cardHolder: CardHolder){
+        mFlashcardDatabaseHelper = FlashcardDatabaseHelper(mContext)
+        mFlashcardDatabaseHelper.deleteDeck(deckModelList[cardHolder.adapterPosition].id)
+        deckModelList.clear()
+        deckModelList.addAll(mFlashcardDatabaseHelper.readDeck())
+        notifyDataSetChanged()
     }
 
 

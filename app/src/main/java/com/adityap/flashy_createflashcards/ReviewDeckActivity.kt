@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.adityap.flashy_createflashcards.adapters.CardListAdapter
@@ -70,6 +71,21 @@ class ReviewDeckActivity : AppCompatActivity() {
         playDeckButton.setOnClickListener(View.OnClickListener {
             startPlayDeckActivity(deckModel.id)
         })
+
+        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT  or ItemTouchHelper.RIGHT){
+            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, postiion: Int) {
+                (viewAdapter as RecycleViewDeckCardListAdapter).removeItem(viewHolder as RecycleViewDeckCardListAdapter.CardHolder)
+            }
+
+        }
+
+        val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+        itemTouchHelper.attachToRecyclerView(recyclerViewCards)
+
     }
 
     private fun showAddCardDialog(deckId: Int) {

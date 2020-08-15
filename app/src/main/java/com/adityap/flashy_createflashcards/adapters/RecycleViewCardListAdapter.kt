@@ -37,17 +37,15 @@ class RecycleViewDeckCardListAdapter(private val mContext: Context, var flashcar
             cardView.findViewById<TextView>(R.id.cardDescription).apply {
                 text = flashcardModelList[position].definition
             }
-            cardView.findViewById<Button>(R.id.deleteCardButton).apply {
-                setOnClickListener(View.OnClickListener {
-                    mFlashcardDatabaseHelper = FlashcardDatabaseHelper(mContext)
-                    mFlashcardDatabaseHelper.deleteFlashcard(flashcardModelList[position].id)
-
-                    flashcardModelList.clear()
-                    flashcardModelList.addAll(mFlashcardDatabaseHelper.readFlashcards(deckid))
-                    notifyDataSetChanged()
-                })
-            }
         }
+    }
+    fun removeItem(viewHolder: CardHolder){
+        mFlashcardDatabaseHelper = FlashcardDatabaseHelper(mContext)
+        mFlashcardDatabaseHelper.deleteFlashcard(flashcardModelList[viewHolder.adapterPosition].id)
+
+        flashcardModelList.clear()
+        flashcardModelList.addAll(mFlashcardDatabaseHelper.readFlashcards(deckid))
+        notifyDataSetChanged()
     }
 
 

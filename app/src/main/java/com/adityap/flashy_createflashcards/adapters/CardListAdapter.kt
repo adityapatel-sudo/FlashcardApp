@@ -32,14 +32,6 @@ class CardListAdapter(private val mContext: Context, var flashcardModelList: Mut
         returnView.let {
             it.cardName.text = flashcardModelList[position].word
             it.cardDescription.text = flashcardModelList[position].definition
-            it.deleteCardButton.setOnClickListener(View.OnClickListener {
-                mFlashcardDatabaseHelper = FlashcardDatabaseHelper(mContext)
-                mFlashcardDatabaseHelper.deleteFlashcard(flashcardModelList[position].id)
-
-                flashcardModelList.clear()
-                flashcardModelList.addAll(mFlashcardDatabaseHelper.readFlashcards(deckId))
-                notifyDataSetChanged()
-            })
         }
 
 
