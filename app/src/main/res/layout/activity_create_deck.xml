@@ -22,19 +22,6 @@
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-        <TextView
-            style="@style/TitleCap"
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="33dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:text="TextView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.504"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="320dp" />
-
         <EditText
             android:id="@+id/editTextDeckName"
             style="@style/Widget.AppCompat.Light.AutoCompleteTextView"
@@ -70,11 +57,11 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
-            style="@style/Widget.AppCompat.Button.Colored"
             android:id="@+id/read_edittext_button"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Button" />
+            android:text="Create Deck" />
 
     </LinearLayout>
 

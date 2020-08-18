@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -20,8 +19,8 @@ import com.adityap.flashy_createflashcards.models.DeckModel
 import com.adityap.flashy_createflashcards.models.FlashcardModel
 import com.google.android.material.snackbar.Snackbar
 
-class DeckListAdapterRecycler(private val mContext: Context, var deckModelList: MutableList<DeckModel>)
-    :RecyclerView.Adapter<DeckListAdapterRecycler.CardHolder>(){
+class DeckRecyclerListAdapter(private val mContext: Context, var deckModelList: MutableList<DeckModel>)
+    :RecyclerView.Adapter<DeckRecyclerListAdapter.CardHolder>(){
 
     private var removedPosition: Int = 0
     lateinit var removedDeck : DeckModel
