@@ -11,6 +11,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.core.view.marginLeft
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -27,7 +28,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
 
-    private var swipeBackgroundColor: ColorDrawable = ColorDrawable(Color.parseColor("#ff0000"))
+    private var swipeBackgroundColor: ColorDrawable = ColorDrawable(Color.parseColor("#d11a2a"))
     private lateinit var deleteIcon: Drawable
 
     lateinit var mDeckModelList: MutableList<DeckModel>
@@ -39,6 +40,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         mFlashcardDatabaseHelper = FlashcardDatabaseHelper(this)
         val fab = findViewById<View>(R.id.fab) as FloatingActionButton
+
 
         fab.setOnClickListener {
             startActivityForResult(Intent(this, CreateDeckActivity::class.java), 123)
