@@ -15,7 +15,7 @@ class CreateDeckActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_deck)
-        val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
+        val toolbar = findViewById<View>(R.id.constraint_layout) as Toolbar
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         setSupportActionBar(toolbar)

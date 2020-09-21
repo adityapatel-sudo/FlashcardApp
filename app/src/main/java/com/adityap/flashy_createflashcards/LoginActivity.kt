@@ -4,9 +4,13 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.View
+import androidx.appcompat.widget.Toolbar
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
 
@@ -24,12 +28,16 @@ class LoginActivity : AppCompatActivity() {
                 AuthUI.IdpConfig.PhoneBuilder().build())
 
 // Create and launch sign-in intent
-        startActivityForResult(
-                AuthUI.getInstance()
-                        .createSignInIntentBuilder()
-                        .setAvailableProviders(providers)
-                        .build(),
-                RC_SIGN_IN)
+        loginButton.setOnClickListener(View.OnClickListener {
+            startActivityForResult(
+                    AuthUI.getInstance()
+                            .createSignInIntentBuilder()
+                            .setAvailableProviders(providers)
+                            .build(),
+                    RC_SIGN_IN)
+        })
+
+
 
 
     }
@@ -42,8 +50,9 @@ class LoginActivity : AppCompatActivity() {
                 val intent: Intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 val user = FirebaseAuth.getInstance().currentUser
-                // ...
+
             } else {
+                Log.d("TAG", response?.error.toString())
                 // Sign in failed. If response is null the user canceled the
                 // sign-in flow using the back button. Otherwise check
                 // response.getError().getErrorCode() and handle the error.

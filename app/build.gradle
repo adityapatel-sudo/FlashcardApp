@@ -41,6 +41,7 @@ dependencies {
     implementation "androidx.core:core-ktx:+"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.firebaseui:firebase-ui-auth:6.2.0'
+    implementation 'com.google.firebase:firebase-database:19.4.0'
 }
 repositories {
     mavenCentral()

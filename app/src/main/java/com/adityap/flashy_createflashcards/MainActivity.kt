@@ -11,18 +11,18 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
-import androidx.core.view.marginLeft
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.adityap.flashy_createflashcards.adapters.DeckRecyclerListAdapter
 import com.adityap.flashy_createflashcards.models.DeckModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
 
 
-    //I am going to create a branch called BigBranch
     lateinit var mFlashcardDatabaseHelper: FlashcardDatabaseHelper
     lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
@@ -36,10 +36,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
+        val toolbar = findViewById<View>(R.id.main_toolbar) as Toolbar
         setSupportActionBar(toolbar)
         mFlashcardDatabaseHelper = FlashcardDatabaseHelper(this)
         val fab = findViewById<View>(R.id.fab) as FloatingActionButton
+
+
 
 
         fab.setOnClickListener {
@@ -118,6 +120,8 @@ class MainActivity : AppCompatActivity() {
 
         val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
+
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
