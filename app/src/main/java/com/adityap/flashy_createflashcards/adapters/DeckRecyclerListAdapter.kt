@@ -65,17 +65,17 @@ class DeckRecyclerListAdapter(private val mContext: Context, var deckModelList: 
         removedPosition = cardHolder.adapterPosition
         removedDeck = mFlashcardDatabaseHelper.readDeck()[removedPosition]
         removedCards = mFlashcardDatabaseHelper.readFlashcards(removedDeck.id)
-
+        
 
         mFlashcardDatabaseHelper.deleteDeck(deckModelList[cardHolder.adapterPosition].id)
         deckModelList.clear()
         deckModelList.addAll(mFlashcardDatabaseHelper.readDeck())
         notifyItemRemoved(cardHolder.adapterPosition)
 
-        Snackbar.make(cardHolder.itemView, "${removedDeck.deckName} deleted.", Snackbar.LENGTH_LONG).setAction("UNDO") {
-            mFlashcardDatabaseHelper.addDeck(removedDeck)
-            for(i in 0 until removedCards.size){
-                mFlashcardDatabaseHelper.addFlashcard(removedCards[i], removedDeck.id)
+        Snackbar.make(cardHolder.itemView, "${removedDeck.deckName} deleted with ${removedCards.size} cards.", Snackbar.LENGTH_LONG).setAction("UNDO") {
+            val newId = mFlashcardDatabaseHelper.addDeck(removedDeck)
+            for(element in removedCards){
+                mFlashcardDatabaseHelper.addFlashcard(element, newId)
             }
 
             deckModelList.clear()

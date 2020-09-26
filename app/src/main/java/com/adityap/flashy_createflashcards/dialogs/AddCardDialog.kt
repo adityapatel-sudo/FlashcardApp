@@ -57,7 +57,7 @@ class AddCardDialog : DialogFragment() {
 
                                 flashcardDatabaseHelper.addFlashcard(FlashcardModel(
                                         word = cardWord,
-                                        definition = cardDefinition), deckId)
+                                        definition = cardDefinition), deckId.toLong())
                                 listener?.onSave()
 
                                 dialog.dismiss()
