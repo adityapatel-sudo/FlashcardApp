@@ -15,7 +15,7 @@
     </style>
 
     <style name="TextStyle" parent="TextAppearance.AppCompat">
-        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:fontFamily">roboto-regular</item>
         <item name="android:textStyle">normal</item>
     </style>
 
