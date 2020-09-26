@@ -1,8 +1,13 @@
 <resources>
-    <string name="app_name">Flashy</string>
-    <string name="title_activity_main">Flash Cards</string>
-    <string name="title_activity_create_deck">Create Deck</string>
-    <string name="title_activity_review_deck">Review Deck</string>
-    <string name="add_card">Add Card</string>
-    <string name="play_deck">Play Deck</string>
+<string name="app_name">Flashy</string>
+<string name="title_activity_main">Flash Cards</string>
+<string name="title_activity_create_deck">Create Deck</string>
+<string name="title_activity_review_deck">Review Deck</string>
+<string name="add_card">Add Card</string>
+<string name="play_deck">Play Deck</string>
+<string
+    name="empty_deck_message">
+    There are no cards in this deck.Add some cards by clicking the button below.
+</string>
+
 </resources>

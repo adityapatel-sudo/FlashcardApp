@@ -7,9 +7,13 @@ import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -31,6 +35,7 @@ class ReviewDeckActivity : AppCompatActivity() {
 
 
     private lateinit var recyclerViewCards: RecyclerView
+    private lateinit var emptyStateText: TextView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
 
@@ -40,8 +45,11 @@ class ReviewDeckActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_review_deck)
+        
         val toolbar = findViewById<Toolbar>(R.id.constraint_layout)
         setSupportActionBar(toolbar)
+
+        emptyStateText = findViewById(R.id.empty_state)
 
         var bundle: Bundle = intent.extras
         val deckModel: DeckModel = bundle.getParcelable("Deck")
@@ -54,8 +62,12 @@ class ReviewDeckActivity : AppCompatActivity() {
         textViewDeckDescription.text = deckModel.deckDescription
 
         viewManager = LinearLayoutManager(this)
-        viewAdapter = RecycleViewDeckCardListAdapter(this,mCardModelList,deckModel.id)
-
+        viewAdapter = RecycleViewDeckCardListAdapter(this,mCardModelList,deckModel.id).apply { 
+            onEmptyStateChange = {
+                handleEmptyState(it)
+            }
+        }
+        
         deleteIcon = ContextCompat.getDrawable(this, R.drawable.ic_baseline_delete_24)!!
 
         recyclerViewCards = findViewById<RecyclerView>(R.id.recycler_view_cards).apply {
@@ -69,6 +81,8 @@ class ReviewDeckActivity : AppCompatActivity() {
             // specify an viewAdapter (see also next example)
             adapter = viewAdapter
         }
+
+        handleEmptyState(mCardModelList.isEmpty())
 
         buttonAddCard.setOnClickListener(View.OnClickListener {
             showAddCardDialog(deckModel.id)
@@ -121,6 +135,12 @@ class ReviewDeckActivity : AppCompatActivity() {
         val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
         itemTouchHelper.attachToRecyclerView(recyclerViewCards)
 
+    }
+    
+    private fun handleEmptyState(isEmpty : Boolean) {
+        recyclerViewCards.visibility = if (isEmpty) GONE else VISIBLE
+        emptyStateText.visibility =  if (isEmpty) VISIBLE else GONE
+        playDeckButton.isEnabled = !isEmpty
     }
 
     private fun showAddCardDialog(deckId: Int) {

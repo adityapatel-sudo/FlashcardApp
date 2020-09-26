@@ -27,6 +27,10 @@
         <item name="android:textAllCaps">true</item>
     </style>
 
+    <style name="hint" parent="TextStyle">
+        <item name="android:textColor">@color/colorLightGray</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="AppTheme" />
     <style name="AppTheme.PopupOverlay" parent="AppTheme" />
 </resources>
