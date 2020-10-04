@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import com.adityap.flashy_createflashcards.FlashcardDatabaseHelper
+import com.adityap.flashy_createflashcards.database.FlashcardDatabaseHelper
 import com.adityap.flashy_createflashcards.R
 import com.adityap.flashy_createflashcards.models.FlashcardModel
 import kotlinx.android.synthetic.main.custom_cardlist_item_view.view.*

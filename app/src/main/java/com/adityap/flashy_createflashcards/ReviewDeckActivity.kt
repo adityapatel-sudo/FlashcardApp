@@ -13,12 +13,13 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.adityap.flashy_createflashcards.adapters.CardListAdapter
 import com.adityap.flashy_createflashcards.adapters.RecycleViewDeckCardListAdapter
+import com.adityap.flashy_createflashcards.database.DatabaseHelper
+import com.adityap.flashy_createflashcards.database.DatabaseHelperFactory
 import com.adityap.flashy_createflashcards.dialogs.AddCardDialog
 import com.adityap.flashy_createflashcards.models.DeckModel
 import com.adityap.flashy_createflashcards.models.FlashcardModel
@@ -28,7 +29,8 @@ class ReviewDeckActivity : AppCompatActivity() {
     companion object{
         const val TAG = "ReviewDeckActivity"
     }
-    lateinit var mFlashcardDatabaseHelper: FlashcardDatabaseHelper
+
+    lateinit var databaseHelper: DatabaseHelper
 
     lateinit var mCardModelList:  MutableList<FlashcardModel>
     lateinit var mCardListAdapter: CardListAdapter
@@ -45,7 +47,7 @@ class ReviewDeckActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_review_deck)
-        
+
         val toolbar = findViewById<Toolbar>(R.id.constraint_layout)
         setSupportActionBar(toolbar)
 
@@ -55,14 +57,14 @@ class ReviewDeckActivity : AppCompatActivity() {
         val deckModel: DeckModel = bundle.getParcelable("Deck")
 
         mCardModelList = mutableListOf()
-        mFlashcardDatabaseHelper = FlashcardDatabaseHelper(this)
-        mCardModelList.addAll(mFlashcardDatabaseHelper.readFlashcards(deckModel.id))
+        databaseHelper = DatabaseHelperFactory.getDBHelper(this)
+        mCardModelList.addAll(databaseHelper.readFlashcards(deckModel.id))
 
         textViewDeckName.text = deckModel.deckName
         textViewDeckDescription.text = deckModel.deckDescription
 
         viewManager = LinearLayoutManager(this)
-        viewAdapter = RecycleViewDeckCardListAdapter(this,mCardModelList,deckModel.id).apply { 
+        viewAdapter = RecycleViewDeckCardListAdapter(this, mCardModelList, deckModel.id).apply {
             onEmptyStateChange = {
                 handleEmptyState(it)
             }
@@ -148,7 +150,7 @@ class ReviewDeckActivity : AppCompatActivity() {
         dialog.listener = object : AddCardDialog.Listener{
             override fun onSave() {
                 mCardModelList.clear()
-                mCardModelList.addAll(mFlashcardDatabaseHelper.readFlashcards(deckId))
+                mCardModelList.addAll(databaseHelper.readFlashcards(deckId))
                 viewAdapter.notifyDataSetChanged()
             }
 

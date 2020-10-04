@@ -3,19 +3,20 @@ package com.adityap.flashy_createflashcards
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.adityap.flashy_createflashcards.adapters.CustomPagerAdapter
-import com.adityap.flashy_createflashcards.models.DeckModel
+import com.adityap.flashy_createflashcards.database.DatabaseHelper
+import com.adityap.flashy_createflashcards.database.DatabaseHelperFactory
 import kotlinx.android.synthetic.main.activity_play_card.*
 
 class PlayCardActivity : AppCompatActivity() {
-    lateinit var mFlashcardDatabaseHelper: FlashcardDatabaseHelper
+    lateinit var databaseHelper: DatabaseHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_play_card)
-        mFlashcardDatabaseHelper = FlashcardDatabaseHelper(this)
+        databaseHelper = DatabaseHelperFactory.getDBHelper(this)
         val bundle: Bundle? = intent.extras
         val deckModelId: Int? = bundle?.getInt("Deck")
-        val listOfCards = mFlashcardDatabaseHelper.readFlashcards(deckModelId)
+        val listOfCards = databaseHelper.readFlashcards(deckModelId)
         viewPager.adapter = CustomPagerAdapter(this, listOfCards)
     }
 }

@@ -15,15 +15,15 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.adityap.flashy_createflashcards.adapters.DeckRecyclerListAdapter
+import com.adityap.flashy_createflashcards.database.DatabaseHelper
+import com.adityap.flashy_createflashcards.database.DatabaseHelperFactory
 import com.adityap.flashy_createflashcards.models.DeckModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.firebase.FirebaseApp
-import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
 
 
-    lateinit var mFlashcardDatabaseHelper: FlashcardDatabaseHelper
+    lateinit var databaseHelper: DatabaseHelper
     lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val toolbar = findViewById<View>(R.id.main_toolbar) as Toolbar
         setSupportActionBar(toolbar)
-        mFlashcardDatabaseHelper = FlashcardDatabaseHelper(this)
+        databaseHelper = DatabaseHelperFactory.getDBHelper(this)
         val fab = findViewById<View>(R.id.fab) as FloatingActionButton
 
 
@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         mDeckModelList = mutableListOf()
-        mDeckModelList.addAll(mFlashcardDatabaseHelper.readDeck())
+        mDeckModelList.addAll(databaseHelper.readDeck())
 
         viewManager = LinearLayoutManager(this)
         viewAdapter = DeckRecyclerListAdapter(this, mDeckModelList)
@@ -128,7 +128,7 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == 123) {
             mDeckModelList.clear()
-            mDeckModelList.addAll(mFlashcardDatabaseHelper.readDeck())
+            mDeckModelList.addAll(databaseHelper.readDeck())
             viewAdapter.notifyDataSetChanged()
         }
     }

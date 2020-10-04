@@ -1,4 +1,4 @@
-package com.adityap.flashy_createflashcards
+package com.adityap.flashy_createflashcards.database
 
 import android.content.ContentValues
 import android.content.Context
@@ -11,29 +11,27 @@ import java.util.*
 /**
  * Created by Aditya on 9/29/2018.
  */
-class FlashcardDatabaseHelper  //private static final String FOREIGN_KEY_LINK = "ALTER " + CREATE_TABLE_CARD + " ADD FOREIGN KEY (" + DECK_ID + ") REFERENCES " + CREATE_TABLE_DECK + " (" + _ID + ");";
-(context: Context?) : SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
+class FlashcardDatabaseHelper(context: Context?) :
+        SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION), DatabaseHelper {
     override fun onCreate(sqLiteDatabase: SQLiteDatabase) {
         sqLiteDatabase.execSQL(CREATE_TABLE_DECK)
         sqLiteDatabase.execSQL(CREATE_TABLE_CARD)
-
-        //sqLiteDatabase.execSQL(FOREIGN_KEY_LINK);
     }
 
     override fun onUpgrade(sqLiteDatabase: SQLiteDatabase, i: Int, i1: Int) {}
-    
-    fun addDeck(deckModel: DeckModel) : Long {
+
+    override fun addDeck(deckModel: DeckModel): Long {
         val deckValues = ContentValues()
         deckValues.put(DECK_NAME, deckModel.deckName)
         deckValues.put(DECK_DESCRIPTION, deckModel.deckDescription)
         val db = this.writableDatabase
         val id = db.insert(DECK_TABLE, null, deckValues)
         db.close()
-        
+
         return id;
     }
 
-    fun addFlashcard(flashcard: FlashcardModel, deckId: Long) {
+    override fun addFlashcard(flashcard: FlashcardModel, deckId: Long) {
         val cardValues = ContentValues()
         cardValues.put(WORD, flashcard.word)
         cardValues.put(DEFINITION, flashcard.definition)
@@ -44,24 +42,24 @@ class FlashcardDatabaseHelper  //private static final String FOREIGN_KEY_LINK = 
         db.close()
     }
 
-    fun deleteFlashcard(flashcardId: Int){
+    override fun deleteFlashcard(flashcardId: Int) {
         val db = this.writableDatabase
-        db.delete(FLASHCARD_TABLE, "$_ID=$flashcardId",null)
+        db.delete(FLASHCARD_TABLE, "$_ID=$flashcardId", null)
         db.close()
     }
 
-    fun deleteDeck(deckId: Int){
+    override fun deleteDeck(deckId: Int) {
         val db = this.writableDatabase
-        db.delete(DECK_TABLE, "$_ID=$deckId",null)
+        db.delete(DECK_TABLE, "$_ID=$deckId", null)
         db.close()
 
         val cardDeck = this.readFlashcards(deckId)
-        for(element in cardDeck){
+        for (element in cardDeck) {
             this.deleteFlashcard(element.id)
         }
     }
 
-    fun readDeck(): List<DeckModel> {
+    override fun readDeck(): List<DeckModel> {
         val query = "SELECT * FROM $DECK_TABLE"
         val db = this.writableDatabase
         val cursor = db.rawQuery(query, null)
@@ -79,7 +77,7 @@ class FlashcardDatabaseHelper  //private static final String FOREIGN_KEY_LINK = 
         return deckList
     }
 
-    fun readFlashcards(deckId: Int?): List<FlashcardModel> {
+    override fun readFlashcards(deckId: Int?): List<FlashcardModel> {
         val query = "SELECT * FROM $FLASHCARD_TABLE"
         val db = this.writableDatabase
         val cursor = db.rawQuery(query, null)

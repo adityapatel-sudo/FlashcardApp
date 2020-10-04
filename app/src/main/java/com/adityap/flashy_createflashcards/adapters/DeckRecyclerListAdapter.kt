@@ -12,7 +12,7 @@ import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.adityap.flashy_createflashcards.FlashcardDatabaseHelper
+import com.adityap.flashy_createflashcards.database.FlashcardDatabaseHelper
 import com.adityap.flashy_createflashcards.R
 import com.adityap.flashy_createflashcards.ReviewDeckActivity
 import com.adityap.flashy_createflashcards.models.DeckModel

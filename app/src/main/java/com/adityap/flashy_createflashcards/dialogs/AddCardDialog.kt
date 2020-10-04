@@ -4,12 +4,11 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import android.widget.EditText
-import android.widget.Toast
 import androidx.fragment.app.DialogFragment
-import com.adityap.flashy_createflashcards.FlashcardDatabaseHelper
 import com.adityap.flashy_createflashcards.R
+import com.adityap.flashy_createflashcards.database.DatabaseHelper
+import com.adityap.flashy_createflashcards.database.DatabaseHelperFactory
 import com.adityap.flashy_createflashcards.models.FlashcardModel
 
 class AddCardDialog : DialogFragment() {
@@ -18,7 +17,7 @@ class AddCardDialog : DialogFragment() {
     }
 
     var listener: Listener? = null
-    lateinit var flashcardDatabaseHelper: FlashcardDatabaseHelper
+    lateinit var databaseHelper: DatabaseHelper
 
 
     companion object {
@@ -33,7 +32,7 @@ class AddCardDialog : DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        flashcardDatabaseHelper = FlashcardDatabaseHelper(context)
+        databaseHelper = DatabaseHelperFactory.getDBHelper(context!!)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -55,7 +54,7 @@ class AddCardDialog : DialogFragment() {
                                 val cardWord = addCardWordEditText?.text.toString()
                                 val cardDefinition = addCardDefinitionEditText?.text.toString()
 
-                                flashcardDatabaseHelper.addFlashcard(FlashcardModel(
+                                databaseHelper.addFlashcard(FlashcardModel(
                                         word = cardWord,
                                         definition = cardDefinition), deckId.toLong())
                                 listener?.onSave()

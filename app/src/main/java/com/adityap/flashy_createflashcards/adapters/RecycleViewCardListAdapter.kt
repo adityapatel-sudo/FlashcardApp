@@ -3,14 +3,14 @@ package com.adityap.flashy_createflashcards.adapters
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-import com.adityap.flashy_createflashcards.FlashcardDatabaseHelper
+import com.adityap.flashy_createflashcards.database.FlashcardDatabaseHelper
 import com.adityap.flashy_createflashcards.R
+import com.adityap.flashy_createflashcards.database.DatabaseHelper
+import com.adityap.flashy_createflashcards.database.DatabaseHelperFactory
 import com.adityap.flashy_createflashcards.models.FlashcardModel
 
 class RecycleViewDeckCardListAdapter(
@@ -23,7 +23,7 @@ class RecycleViewDeckCardListAdapter(
     }
     var onEmptyStateChange :(isEmpty: Boolean)->Unit = {}
 
-    lateinit var mFlashcardDatabaseHelper: FlashcardDatabaseHelper
+    lateinit var databaseHelper: DatabaseHelper
 
     class CardHolder(val cardView: CardView) : RecyclerView.ViewHolder(cardView)
     
@@ -60,11 +60,11 @@ class RecycleViewDeckCardListAdapter(
     }
 
     fun removeItem(viewHolder: CardHolder) {
-        mFlashcardDatabaseHelper = FlashcardDatabaseHelper(mContext)
-        mFlashcardDatabaseHelper.deleteFlashcard(flashcardModelList[viewHolder.adapterPosition].id)
+        databaseHelper = DatabaseHelperFactory.getDBHelper(mContext)
+        databaseHelper.deleteFlashcard(flashcardModelList[viewHolder.adapterPosition].id)
 
         flashcardModelList.clear()
-        flashcardModelList.addAll(mFlashcardDatabaseHelper.readFlashcards(deckid))
+        flashcardModelList.addAll(databaseHelper.readFlashcards(deckid))
         notifyDataSetChanged()
     }
 }
