@@ -17,13 +17,13 @@ class CardView @JvmOverloads constructor(
         attrs: AttributeSet? = null,
         defStyle: Int = 0) : LinearLayout(context, attrs, defStyle) {
 
-    private val titleView: TextView = findViewById(R.id.title)
-    private val descriptionView: TextView = findViewById(R.id.description)
-    val imageView: ImageView = findViewById(R.id.image)
-
     init {
         View.inflate(context, R.layout.card_view, this)
     }
+
+    private val titleView: TextView = findViewById(R.id.title)
+    private val descriptionView: TextView = findViewById(R.id.description)
+    private val imageView: ImageView = findViewById(R.id.image)
 
     var cardModel: CardModel? = null
         set(value) {

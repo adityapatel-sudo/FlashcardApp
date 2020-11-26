@@ -16,3 +16,8 @@ data class CardModel(
         }
     }
 }
+
+/**
+ * Represents the front and back view of a Flash card.
+ */
+data class CardPair(val front : CardModel, val back: CardModel)
