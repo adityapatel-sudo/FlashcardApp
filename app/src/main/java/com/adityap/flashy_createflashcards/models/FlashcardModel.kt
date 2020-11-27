@@ -32,7 +32,8 @@ data class FlashcardModel(val id: Int = 0, val word: String, val definition: Str
         }
     }
 
-    fun toCardPair() : CardPair =
-        CardPair(front = CardModel(title = this.word), back = CardModel(description = this.definition))
+    fun toCardPair(): CardPair =
+            CardPair(front = CardModel(side = CardModel.Side.FRONT, title = this.word),
+                    back = CardModel(side = CardModel.Side.BACK, description = this.definition))
 
 }

@@ -21,6 +21,7 @@ class CardView @JvmOverloads constructor(
         View.inflate(context, R.layout.card_view, this)
     }
 
+    private val sideIndicator: TextView = findViewById(R.id.side)
     private val titleView: TextView = findViewById(R.id.title)
     private val descriptionView: TextView = findViewById(R.id.description)
     private val imageView: ImageView = findViewById(R.id.image)
@@ -29,6 +30,9 @@ class CardView @JvmOverloads constructor(
         set(value) {
             field = value
             cardModel?.let {
+                sideIndicator.text = if (it.side == CardModel.Side.FRONT) context.getText(R.string.front)
+                    else context.getText(R.string.back)
+
                 titleView.text = it.title ?: ""
                 titleView.visibility = if (it.title.isNullOrBlank()) View.GONE else View.VISIBLE
 
