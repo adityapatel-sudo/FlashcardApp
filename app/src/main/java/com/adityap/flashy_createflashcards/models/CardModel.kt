@@ -6,15 +6,9 @@ import androidx.annotation.DrawableRes
  * Represent the single side of the Flashcard, could be front or back.
  */
 data class CardModel(
-        val side: Side,
         val title: String? = null,
         val description: String? = null,
         @DrawableRes val imageRes: Int? = null ) {
-
-    enum class Side {
-        FRONT,
-        BACK
-    }
 
     init {
         require(!title.isNullOrEmpty() || !description.isNullOrEmpty() || imageRes != null) {
