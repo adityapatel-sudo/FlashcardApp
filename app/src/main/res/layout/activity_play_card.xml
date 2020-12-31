@@ -7,6 +7,8 @@
     android:layout_height="match_parent"
     tools:context=".PlayCardActivity">
 
+
+
     <TextView
         android:id="@+id/deckTitle"
         android:layout_width="wrap_content"
@@ -31,16 +33,15 @@
         android:textColor="#000"
         />
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewPager"
-        android:layout_width="wrap_content"
+    <com.yuyakaido.android.cardstackview.CardStackView
+        android:id="@+id/card_stack_view"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="#00000000"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark"
-        app:layout_constraintBottom_toTopOf="@+id/smile"
+        app:layout_constraintBottom_toTopOf="@+id/frown"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/deckCount" />
+        app:layout_constraintTop_toBottomOf="@+id/deckCount"
+        />
 
     <ImageButton
         android:id="@+id/frown"
@@ -61,7 +62,4 @@
        app:layout_constraintEnd_toEndOf="parent"
        app:layout_constraintStart_toStartOf="@+id/frown"
       />
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
