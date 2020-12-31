@@ -1,19 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".PlayCardActivity">
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewPager"
-        android:layout_width="0dp"
+
+
+    <TextView
+        android:id="@+id/deckTitle"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:background="#00000000"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="title of the deck"
+        android:textColor="#000"
+        />
+
+    <TextView
+        android:id="@+id/deckCount"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/deckTitle"
+        android:text="3/10"
+        android:textColor="#000"
+        />
+
+    <com.yuyakaido.android.cardstackview.CardStackView
+        android:id="@+id/card_stack_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/frown"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/deckCount"
+        />
+
+    <ImageButton
+        android:id="@+id/frown"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:background="@drawable/ic_frown"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/smile"
+        app:layout_constraintStart_toStartOf="parent"
+      />
+
+    <ImageButton
+       android:id="@+id/smile"
+       android:layout_width="72dp"
+       android:layout_height="72dp"
+       android:background="@drawable/ic_smileyface"
+       app:layout_constraintBottom_toBottomOf="parent"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintStart_toStartOf="@+id/frown"
+      />
 </androidx.constraintlayout.widget.ConstraintLayout>
