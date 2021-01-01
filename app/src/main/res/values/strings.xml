@@ -1,20 +1,20 @@
 <resources>
-<string name="app_name">Flashy</string>
-<string name="title_activity_main">Flash Cards</string>
-<string name="title_activity_create_deck">Create Deck</string>
-<string name="title_activity_review_deck">Review Deck</string>
-<string name="add_card">Add Card</string>
-<string name="play_deck">Play Deck</string>
-<string name="front">Front</string>
-<string name="back">Back</string>
-<string name="profile">Profile</string>
-<string name="settings">Settings</string>
-<string name="home">Home</string>
-<string
-    name="empty_deck_message">
-    There are no cards in this deck.Add some cards by clicking the button below.
-</string>
-
-
-
+    <string name="app_name">Flashy</string>
+    <string name="title_activity_main">Flash Cards</string>
+    <string name="title_activity_create_deck">Create Deck</string>
+    <string name="title_activity_review_deck">Review Deck</string>
+    <string name="add_card">Add Card</string>
+    <string name="play_deck">Play Deck</string>
+    <string name="front">Front</string>
+    <string name="back">Back</string>
+    <string name="profile">Profile</string>
+    <string name="settings">Settings</string>
+    <string name="home">Home</string>
+    <string name="title_home_screen">Flashy - a simple flash card</string>
+    <string name="login_btn_text">Sign In / Register</string>
+    <string name="guest_btn_txn">Continue as guest</string>
+    <string
+        name="empty_deck_message">
+        There are no cards in this deck.Add some cards by clicking the button below.
+    </string>
 </resources>

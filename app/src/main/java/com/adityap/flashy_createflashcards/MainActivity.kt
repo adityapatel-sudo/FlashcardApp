@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -19,6 +20,7 @@ import com.adityap.flashy_createflashcards.database.DatabaseHelper
 import com.adityap.flashy_createflashcards.database.DatabaseHelperFactory
 import com.adityap.flashy_createflashcards.models.DeckModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
 
@@ -40,8 +42,6 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         databaseHelper = DatabaseHelperFactory.getDBHelper(this)
         val fab = findViewById<View>(R.id.fab) as FloatingActionButton
-
-
 
 
         fab.setOnClickListener {
@@ -121,7 +121,16 @@ class MainActivity : AppCompatActivity() {
         val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
 
+    }
 
+    override fun onResume() {
+        super.onResume()
+        Log.d("Swati", "onResume");
+        val user = FirebaseAuth.getInstance().currentUser
+        if (user == null) {
+            Log.d("Swati", "starting LoginActivity");
+            startActivity(Intent(this, LoginActivity::class.java))
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

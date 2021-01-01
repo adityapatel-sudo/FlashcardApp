@@ -1,63 +1,46 @@
 package com.adityap.flashy_createflashcards
 
-import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import androidx.appcompat.widget.Toolbar
-import com.firebase.ui.auth.AuthUI
-import com.firebase.ui.auth.IdpResponse
+import android.util.Patterns
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
 
-    companion object {
-        const val RC_SIGN_IN = 1
-    }
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        auth = FirebaseAuth.getInstance()
         setContentView(R.layout.activity_login)
+        email.addTextChangedListener {
+            loginButton.isEnabled = isInputLoginReady()
+        }
 
-        // Choose authentication providers
-        val providers = arrayListOf(
-                AuthUI.IdpConfig.EmailBuilder().build(),
-                AuthUI.IdpConfig.PhoneBuilder().build())
+        password.addTextChangedListener {
+            loginButton.isEnabled = isInputLoginReady()
+        }
 
-// Create and launch sign-in intent
-        loginButton.setOnClickListener(View.OnClickListener {
-            startActivityForResult(
-                    AuthUI.getInstance()
-                            .createSignInIntentBuilder()
-                            .setAvailableProviders(providers)
-                            .build(),
-                    RC_SIGN_IN)
-        })
-
-
-
+        loginButton.setOnClickListener {
+            auth.signInWithEmailAndPassword(email.text.toString(), password.text.toString())
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                        } else {
+                            Toast.makeText(this, "Login Failed, Please try again", Toast.LENGTH_LONG).show()
+                        }
+                    }
+        }
 
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == RC_SIGN_IN) {
-            val response = IdpResponse.fromResultIntent(data)
-            if (resultCode == Activity.RESULT_OK) {
-                val intent: Intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
-                val user = FirebaseAuth.getInstance().currentUser
-
-            } else {
-                Log.d("TAG", response?.error.toString())
-                // Sign in failed. If response is null the user canceled the
-                // sign-in flow using the back button. Otherwise check
-                // response.getError().getErrorCode() and handle the error.
-                // ...
-            }
-        }
+    private fun isInputLoginReady(): Boolean {
+        val emailText = email.text.toString()
+        val passwordText = password.text.toString()
+        return (!emailText.isNullOrEmpty() && !passwordText.isNullOrEmpty() && Patterns.EMAIL_ADDRESS.matcher(emailText).matches())
     }
 }
