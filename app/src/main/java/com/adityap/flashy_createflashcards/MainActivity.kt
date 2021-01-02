@@ -1,144 +1,57 @@
 package com.adityap.flashy_createflashcards
 
-import android.app.Activity
 import android.content.Intent
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.adityap.flashy_createflashcards.adapters.DeckRecyclerListAdapter
-import com.adityap.flashy_createflashcards.database.DatabaseHelper
-import com.adityap.flashy_createflashcards.database.DatabaseHelperFactory
-import com.adityap.flashy_createflashcards.models.DeckModel
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import com.adityap.flashy_createflashcards.models.LOGGING_TAG
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-
-    lateinit var databaseHelper: DatabaseHelper
-    lateinit var recyclerView: RecyclerView
-    private lateinit var viewAdapter: RecyclerView.Adapter<*>
-    private lateinit var viewManager: RecyclerView.LayoutManager
-
-    private var swipeBackgroundColor: ColorDrawable = ColorDrawable(Color.parseColor("#d11a2a"))
-    private lateinit var deleteIcon: Drawable
-
-    lateinit var mDeckModelList: MutableList<DeckModel>
+    private val homeFragment: Fragment = HomeFragment()
+    private val fm: FragmentManager = supportFragmentManager
+    private var active: Fragment = homeFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val toolbar = findViewById<View>(R.id.main_toolbar) as Toolbar
         setSupportActionBar(toolbar)
-        databaseHelper = DatabaseHelperFactory.getDBHelper(this)
-        val fab = findViewById<View>(R.id.fab) as FloatingActionButton
-
-
-        fab.setOnClickListener {
-            startActivityForResult(Intent(this, CreateDeckActivity::class.java), 123)
-        }
-
-        mDeckModelList = mutableListOf()
-        mDeckModelList.addAll(databaseHelper.readDeck())
-
-        viewManager = LinearLayoutManager(this)
-        viewAdapter = DeckRecyclerListAdapter(this, mDeckModelList)
-
-        deleteIcon = ContextCompat.getDrawable(this, R.drawable.ic_baseline_delete_24)!!
-
-        recyclerView = findViewById<RecyclerView>(R.id.recyclerView).apply {
-            setHasFixedSize(true)
-            layoutManager = viewManager
-            adapter = viewAdapter
-        }
-
-/*        mDeckListAdapter = DeckListAdapter(this, mDeckModelList!!)
-        listview.adapter = mDeckListAdapter*/
-/*        listview.onItemClickListener = OnItemClickListener { _, _, position, _ ->
-            val intent = Intent(this, ReviewDeckActivity::class.java)
-            intent.putExtra("Deck", mDeckModelList!![position])
-            startActivity(intent)
-        }*/
-        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
-            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
-                return false
-            }
-
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, postiion: Int) {
-                (viewAdapter as DeckRecyclerListAdapter).removeItem(viewHolder as DeckRecyclerListAdapter.CardHolder)
-            }
-
-            override fun onChildDraw(
-                    c: Canvas,
-                    recyclerView: RecyclerView,
-                    viewHolder: RecyclerView.ViewHolder,
-                    dX: Float,
-                    dY: Float,
-                    actionState: Int,
-                    isCurrentlyActive: Boolean) {
-
-                val itemView = viewHolder.itemView
-
-                val iconMargin = (itemView.height - deleteIcon.intrinsicHeight) /2
-                if(dX>0){
-                    swipeBackgroundColor.setBounds(itemView.left,itemView.top,dX.toInt(),itemView.bottom)
-                    deleteIcon.setBounds(itemView.left + iconMargin,
-                            itemView.top + iconMargin,
-                            itemView.left + iconMargin + deleteIcon.intrinsicWidth,
-                            itemView.bottom - iconMargin )
-                }else {
-                    swipeBackgroundColor.setBounds(itemView.right + dX.toInt(),itemView.top, itemView.right,itemView.bottom)
-                    deleteIcon.setBounds(itemView.right-iconMargin-deleteIcon.intrinsicWidth,
-                    itemView.top + iconMargin,
-                    itemView.right-iconMargin,
-                    itemView.bottom - iconMargin)
-                }
-                swipeBackgroundColor.draw(c)
-                c.save()
-
-                if(dX > 0 )
-                    c.clipRect(itemView.left,itemView.top, dX.toInt(), itemView.bottom)
-                else
-                    c.clipRect(itemView.right+dX.toInt(),itemView.top,itemView.right, itemView.bottom)
-                deleteIcon.draw(c)
-
-                c.restore()
-
-                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
-            }
-        }
-
-        val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
-        itemTouchHelper.attachToRecyclerView(recyclerView)
-
     }
 
     override fun onResume() {
         super.onResume()
-        Log.d("Swati", "onResume");
+        Log.d(LOGGING_TAG, "onResume");
         val user = FirebaseAuth.getInstance().currentUser
         if (user == null) {
-            Log.d("Swati", "starting LoginActivity");
+            Log.d(LOGGING_TAG, "starting LoginActivity");
             startActivity(Intent(this, LoginActivity::class.java))
         }
+
+        fm.beginTransaction().replace(R.id.fragment_container, active).commit()
+        bottom_navigation.setOnNavigationItemSelectedListener { switchMenu(it) }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK && requestCode == 123) {
-            mDeckModelList.clear()
-            mDeckModelList.addAll(databaseHelper.readDeck())
-            viewAdapter.notifyDataSetChanged()
+    private fun switchMenu(item: MenuItem): Boolean {
+        Log.d(LOGGING_TAG, "bottom_navigation nav item clicked")
+        return when (item.itemId) {
+            R.id.home -> {
+                active = homeFragment
+                fm.beginTransaction().replace(R.id.fragment_container, active).commit()
+                true
+            }
+            else -> {
+                true
+            }
         }
     }
 }
+
+
