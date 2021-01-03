@@ -33,7 +33,9 @@ class MainActivity : AppCompatActivity() {
         val user = FirebaseAuth.getInstance().currentUser
         if (user == null) {
             Log.d(LOGGING_TAG, "starting LoginActivity");
-            startActivity(Intent(this, LoginActivity::class.java))
+            var loginIntent = Intent(this, LoginActivity::class.java)
+            loginIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(loginIntent)
         }
 
         fm.beginTransaction().replace(R.id.fragment_container, active).commit()
