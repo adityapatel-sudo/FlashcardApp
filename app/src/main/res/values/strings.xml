@@ -13,8 +13,10 @@
     <string name="title_home_screen">Flashy - a simple flash card</string>
     <string name="login_btn_text">Sign In / Register</string>
     <string name="guest_btn_txn">Continue as guest</string>
-    <string
-        name="empty_deck_message">
+    <string name="log_in">Log In</string>
+    <string name="log_out">Log Out</string>
+    <string name="guest">Guest</string>
+    <string name="empty_deck_message">
         There are no cards in this deck.Add some cards by clicking the button below.
     </string>
 </resources>

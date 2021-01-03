@@ -29,13 +29,14 @@ class LoginActivity : AppCompatActivity() {
             auth.signInWithEmailAndPassword(email.text.toString(), password.text.toString())
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                            startActivity(Intent(this@LoginActivity,
+                                    MainActivity::class.java))
                         } else {
-                            Toast.makeText(this, "Login Failed, Please try again", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this, "Login Failed, Please try again "
+                                    + task.exception.toString(), Toast.LENGTH_LONG).show()
                         }
                     }
         }
-
     }
 
     private fun isInputLoginReady(): Boolean {

@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     private val homeFragment: Fragment = HomeFragment()
+    private val profileFragment: Fragment = ProfileFragment()
     private val fm: FragmentManager = supportFragmentManager
     private var active: Fragment = homeFragment
 
@@ -43,14 +44,22 @@ class MainActivity : AppCompatActivity() {
         Log.d(LOGGING_TAG, "bottom_navigation nav item clicked")
         return when (item.itemId) {
             R.id.home -> {
-                active = homeFragment
-                fm.beginTransaction().replace(R.id.fragment_container, active).commit()
+                addFragment(homeFragment)
+                true
+            }
+            R.id.profile -> {
+                addFragment(profileFragment)
                 true
             }
             else -> {
                 true
             }
         }
+    }
+
+    private fun addFragment(fragment: Fragment) {
+        active = homeFragment
+        fm.beginTransaction().replace(R.id.fragment_container, fragment).commit()
     }
 }
 
