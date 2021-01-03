@@ -15,7 +15,7 @@
     <string name="guest_btn_txn">Continue as guest</string>
     <string name="log_in">Log In</string>
     <string name="log_out">Log Out</string>
-    <string name="guest">Guest</string>
+    <string name="guest_message">You are using the app as guest, we will not be able to sync your data across installs or different devices.</string>
     <string name="empty_deck_message">
         There are no cards in this deck.Add some cards by clicking the button below.
     </string>

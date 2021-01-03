@@ -35,7 +35,7 @@ class ProfileFragment : Fragment() {
             email.text = user.email
             login_btn.text = resources.getText(R.string.log_out)
         } else {
-            name.text = resources.getText(R.string.guest)
+            name.text = resources.getText(R.string.guest_message)
             email.text = ""
             login_btn.text = resources.getText(R.string.log_in)
         }

@@ -7,6 +7,7 @@ import android.util.Patterns
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
+import com.adityap.flashy_createflashcards.models.EXTRA_GUEST
 import com.adityap.flashy_createflashcards.models.LOGGING_TAG
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_login.*
@@ -41,18 +42,11 @@ class LoginActivity : AppCompatActivity() {
         }
 
         guest.setOnClickListener {
-            auth.signInAnonymously().addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val appIntent = Intent(this@LoginActivity,
-                            MainActivity::class.java)
-                    appIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    startActivity(appIntent)
-                } else {
-                    Log.d(LOGGING_TAG, "Anonymous login failed" + task.exception.toString())
-                    Toast.makeText(this, "Something went wrong, Please try again",
-                            Toast.LENGTH_LONG).show()
-                }
-            }
+            val appIntent = Intent(this@LoginActivity,
+                    MainActivity::class.java)
+            appIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            appIntent.putExtra(EXTRA_GUEST, true)
+            startActivity(appIntent)
         }
     }
 

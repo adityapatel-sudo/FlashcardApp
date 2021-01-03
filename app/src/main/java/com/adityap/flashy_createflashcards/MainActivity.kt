@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import com.adityap.flashy_createflashcards.models.EXTRA_GUEST
 import com.adityap.flashy_createflashcards.models.LOGGING_TAG
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
@@ -19,9 +20,11 @@ class MainActivity : AppCompatActivity() {
     private val profileFragment: Fragment = ProfileFragment()
     private val fm: FragmentManager = supportFragmentManager
     private var active: Fragment = homeFragment
+    private var isGuestLogin = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        isGuestLogin = intent.extras?.getBoolean(EXTRA_GUEST, false) ?: false
         setContentView(R.layout.activity_main)
         val toolbar = findViewById<View>(R.id.main_toolbar) as Toolbar
         setSupportActionBar(toolbar)
@@ -31,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         Log.d(LOGGING_TAG, "onResume");
         val user = FirebaseAuth.getInstance().currentUser
-        if (user == null) {
+        if (user == null && !isGuestLogin) {
             Log.d(LOGGING_TAG, "starting LoginActivity");
             var loginIntent = Intent(this, LoginActivity::class.java)
             loginIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
