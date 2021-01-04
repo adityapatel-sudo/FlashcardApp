@@ -26,8 +26,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         isGuestLogin = intent.extras?.getBoolean(EXTRA_GUEST, false) ?: false
         setContentView(R.layout.activity_main)
-        val toolbar = findViewById<View>(R.id.main_toolbar) as Toolbar
-        setSupportActionBar(toolbar)
     }
 
     override fun onResume() {

@@ -1,6 +1,7 @@
 package com.adityap.flashy_createflashcards
 
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.adityap.flashy_createflashcards.adapters.CardAdapter
 import com.adityap.flashy_createflashcards.database.DatabaseHelper
@@ -15,6 +16,9 @@ class PlayCardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_play_card)
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+
         databaseHelper = DatabaseHelperFactory.getDBHelper(this)
         val bundle: Bundle? = intent.extras
         val deckModelId: Int? = bundle?.getInt("Deck")
@@ -22,5 +26,13 @@ class PlayCardActivity : AppCompatActivity() {
 
         card_stack_view.layoutManager = CardStackLayoutManager(baseContext);
         card_stack_view.adapter = CardAdapter(listOfCards)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // handle arrow click here
+        if (item.itemId === android.R.id.home) {
+            finish() // close this activity and return to preview activity (if there is any)
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

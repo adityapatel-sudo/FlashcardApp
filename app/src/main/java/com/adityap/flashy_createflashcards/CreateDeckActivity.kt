@@ -3,6 +3,7 @@ package com.adityap.flashy_createflashcards
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -17,10 +18,8 @@ class CreateDeckActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_deck)
-        val toolbar = findViewById<View>(R.id.constraint_layout) as Toolbar
-        setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        setSupportActionBar(toolbar)
+
         databaseHelper = FlashcardDatabaseHelper(this)
         read_edittext_button.setOnClickListener(View.OnClickListener { //The following adds name and description of deck into the deck table in db
             val editTextDeckName = editTextDeckName.text.toString()
@@ -30,5 +29,13 @@ class CreateDeckActivity : AppCompatActivity() {
             setResult(Activity.RESULT_OK, result)
             finish()
         })
+    }
+
+    // handles the back arrow click
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId === android.R.id.home) {
+            finish()
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

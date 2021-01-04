@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -47,9 +48,7 @@ class ReviewDeckActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_review_deck)
-
-        val toolbar = findViewById<Toolbar>(R.id.constraint_layout)
-        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         emptyStateText = findViewById(R.id.empty_state)
 
@@ -138,16 +137,24 @@ class ReviewDeckActivity : AppCompatActivity() {
         itemTouchHelper.attachToRecyclerView(recyclerViewCards)
 
     }
-    
-    private fun handleEmptyState(isEmpty : Boolean) {
+
+    // handles the back arrow click
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId === android.R.id.home) {
+            finish()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun handleEmptyState(isEmpty: Boolean) {
         recyclerViewCards.visibility = if (isEmpty) GONE else VISIBLE
-        emptyStateText.visibility =  if (isEmpty) VISIBLE else GONE
+        emptyStateText.visibility = if (isEmpty) VISIBLE else GONE
         playDeckButton.isEnabled = !isEmpty
     }
 
     private fun showAddCardDialog(deckId: Int) {
         val dialog = AddCardDialog.getInstance(deckId)
-        dialog.listener = object : AddCardDialog.Listener{
+        dialog.listener = object : AddCardDialog.Listener {
             override fun onSave() {
                 mCardModelList.clear()
                 mCardModelList.addAll(databaseHelper.readFlashcards(deckId))
